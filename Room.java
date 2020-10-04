@@ -2,12 +2,14 @@ import java.util.*;
 public class Room extends Structure{
     private int roomID;
     private String room;
-    List<Creature> creature = new ArrayList<Creature>();
+    private Creature[] = creature;
+    //List<Creature> creature = new ArrayList<Creature>();
 
-    public Room(String string){
+    public Room(String string) {
         super();
         room = string;
         System.out.println(room);
+    }
 
     public void setId(int room){
         roomID = room;
