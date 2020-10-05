@@ -33,8 +33,9 @@ public class DungeonXMLHandler extends DefaultHandler{
     private ItemAction itemActionBeingParsed = null;
     
     //
-    private String currentDisplay = null;
-    private Creature owner = null;
+    private String currentDisplay = null; //the name of parameters
+    private boolean actionflag = false; //true: CreatureAction; false: ItemAction
+    private Creature owner = null; //store the address of current creature
            
     
     //bX fileds
@@ -48,6 +49,10 @@ public class DungeonXMLHandler extends DefaultHandler{
     private boolean bPosY = false;
     private boolean bWidth = false;
     private boolean bHeight = false;
+    
+    private boolean bActionMessage = false;
+    private boolean bActionIntValue = false;
+    private boolean bActionCharValue = false;
     
     
     
@@ -213,6 +218,7 @@ public class DungeonXMLHandler extends DefaultHandler{
                     break;     
             }
             creatureActionBeingParsed = creatureAction;
+            actionflag = true;
         }
         else if(qName.equalsIgnoreCase("ItemAction")){
             String name = attributes.getValue("name");
@@ -229,6 +235,16 @@ public class DungeonXMLHandler extends DefaultHandler{
                     System.out.println("Unknown ItemAction: "+name);
             }
             itemActionBeingParsed = itemAction;  
+            actionflag = false;
+        }
+        else if (qName.equalsIgnoreCase("actionMessage")){
+            bActionMessage = true;
+        }
+        else if (qName.equalsIgnoreCase("actionIntValue")){
+            bActionIntValue = true;
+        }
+        else if (qName.equalsIgnoreCase("actionCharValue")){
+            bActionCharValue = true;
         }
         
         data = new StringBuilder();
@@ -291,6 +307,10 @@ public class DungeonXMLHandler extends DefaultHandler{
             display.setHpMove(Integer.parseInt(data.toString()));
             bHpMove = false;
         }
+        else if (bHp){
+            display.setHp(Integer.parseInt(data.toString()));
+            bHp = false;
+        }
         else if (bType){
             display.setType(data.toString());
             bType = false;
@@ -344,6 +364,33 @@ public class DungeonXMLHandler extends DefaultHandler{
         }
         else if (qName.equalsIgnoreCase("ItemAction")){
             itemActionBeingParsed = null;
+        }
+        else if (bActionMessage){
+            if(actionflag){
+                creatureActionBeingParsed.setMessage(data.toString());
+            }
+            else{
+                itemActionBeingParsed.setMessage(data.toString());
+            }
+            bActionMessage = false;
+        }
+        else if (bActionIntValue){
+            if(actionflag){
+                creatureActionBeingParsed.setIntValue(Integer.parseInt(data.toString()));
+            }
+            else{
+                itemActionBeingParsed.setIntValue(Integer.parseInt(data.toString()));
+            }
+            bActionIntValue = false;
+        }
+        else if (bActionCharValue){
+            if (actionflag){
+                creatureActionBeingParsed.setCharValue(data.toString().charAt(0));
+            }
+            else{
+                itemActionBeingParsed.setCharValue(data.toString().charAt(0));
+            }
+            bActionCharValue = false;
         }
     }
     
