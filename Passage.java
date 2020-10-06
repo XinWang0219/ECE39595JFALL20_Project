@@ -15,6 +15,6 @@ public class Passage extends Structure{
     public void setID(int _room1, int _room2){
         room1 = _room1;
         room2 = _room2;
-        System.out.println("Passage setID: %d, %d", room1, room2);
+        System.out.println("Passage setID: " + room1 + "; " + room2);
     }
 }

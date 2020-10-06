@@ -15,6 +15,6 @@ public class Armor extends Item{
     public void setID(int _room, int _serial){
         room = _room;
         serial = _serial;
-        System.out.println("Armor setID: %d, %d", room, serial);
+        System.out.println("Armor setID: "+room +"; " + serial);
     }
 }

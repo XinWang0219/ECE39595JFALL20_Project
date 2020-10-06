@@ -18,7 +18,7 @@ public class DungeonXMLHandler extends DefaultHandler{
     private ObjectDisplayGrid objectDisplayGrid = null;
     private Room[] rooms;
     private int roomCount = 0;
-    private passage[] passages;
+    private Passage[] passages;
     private int passageCount = 0;
     
     //private Dungeon dungeonBeingParsed = null;
@@ -88,8 +88,10 @@ public class DungeonXMLHandler extends DefaultHandler{
         }
         //create new room, add to room ArrayList, and start room parse
         else if (qName.equalsIgnoreCase("Room")){
-            int roomID = Integer.parseInt(attributes.getValue("room"));
-            Room room = new Room();
+            String roomID = attributes.getValue("room");
+            Room room = new Room(roomID);
+            int roomid = Integer.parseInt(roomID);
+            room.setId(roomid);
             addRoom(room);
             roomBeingParsed = room;
             currentDisplay = "Room";
@@ -144,7 +146,7 @@ public class DungeonXMLHandler extends DefaultHandler{
             Monster monster = new Monster();
             monster.setName(name);
             monster.setID(roomID, serial);
-            room.setCreature(monster);
+            roomBeingParsed.setCreature(monster);
             monsterBeingParsed = monster;
             currentDisplay = "Monster";
             owner = monster;
@@ -174,7 +176,7 @@ public class DungeonXMLHandler extends DefaultHandler{
             int roomID = Integer.parseInt(attributes.getValue("room"));
             int serial = Integer.parseInt(attributes.getValue("serial"));
             Sword sword = new Sword(name);
-            sword.serID(roomID, serial);
+            sword.setID(roomID, serial);
             swordBeingParsed = sword;
             currentDisplay = "Sword";
         }

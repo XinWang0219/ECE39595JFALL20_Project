@@ -10,6 +10,9 @@ public class Displayable{
     private int posY;
     private int width;
     private int height;
+    
+    //add name property
+    public String name;
 
     public Displayable(){
 
@@ -36,11 +39,11 @@ public class Displayable{
     }
 
     public void setHp(int _Hp){
-        Hp = _hp;
+        Hp = _Hp;
         System.out.println(Hp);
     }
 
-    public void setType(chat _t){
+    public void setType(char _t){
         t = _t;
         System.out.println(t);
     }
@@ -68,5 +71,10 @@ public class Displayable{
     public void setHeight(int y){
         height = y;
         System.out.println(height);
+    }
+    
+    //adding name property
+    public void setName(String _name){
+        name = _name;
     }
 }

@@ -2,7 +2,7 @@ import java.util.*;
 public class Room extends Structure{
     private int roomID;
     private String room;
-    private Creature[] = creature;
+    private Creature[] creature;
     //List<Creature> creature = new ArrayList<Creature>();
 
     public Room(String string) {
@@ -16,8 +16,10 @@ public class Room extends Structure{
         System.out.println("Room setID: "+roomID);
     }
 
-    public void setCreature(Creature Monster){
-        creature.add(Monster);
+    public void setCreature(Creature monster){
+        //creature.add(Monster);
+        creature = Arrays.copyOf(creature, creature.length+1);
+        creature[creature.length-1] = monster;
         System.out.println("Room setCreature: "+creature);
     }
 }

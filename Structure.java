@@ -1,5 +1,5 @@
 public class Structure extends Displayable{
-    public Structure{
+    public Structure(){
         super();
     }
 }
