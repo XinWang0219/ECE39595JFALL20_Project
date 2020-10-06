@@ -10,6 +10,6 @@ public class Scroll extends Item{
     public void setID(int _room, int _serial){
         room = _room;
         serial = _serial;
-        System.out.println("Monster setHP: %d, %d", room, serial);
+        System.out.println("Monster setHP: " + room + "; " + serial);
     }
 }
