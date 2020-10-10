@@ -20,12 +20,12 @@ public class Displayable{
 
     public void setInvisible(){
         visible = 0;
-        System.out.println(visible);
+        System.out.println("Visible: "+visible);
     }
 
     public void setVisible(){
         visible = 1;
-        System.out.println(visible);
+        System.out.println("Visible: "+visible);
     }
 
     public void setMaxHit(int _maxHit){
@@ -76,5 +76,22 @@ public class Displayable{
     //adding name property
     public void setName(String _name){
         name = _name;
+    }
+    
+    @Override
+    public String toString(){
+        String str = "Displayable: \n";
+        str += "    visible: "+visible;
+        str += "    maxHit: "+maxHit;
+        str += "    hpMoves: "+hpMoves;
+        str += "    Hp: "+Hp;
+        str += "    t: "+t;
+        str += "    v: "+v;
+        str += "    posX"+posX;
+        str += "    posY"+posY;
+        str += "    width"+width;
+        str += "    height"+height;
+        
+        return str;
     }
 }

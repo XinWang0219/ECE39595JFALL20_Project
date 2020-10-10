@@ -1,4 +1,4 @@
-
+import java.util.Arrays;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -17,9 +17,7 @@ public class DungeonXMLHandler extends DefaultHandler{
     private Dungeon dungeon = null;
     private ObjectDisplayGrid objectDisplayGrid = null;
     private Room[] rooms;
-    private int roomCount = 0;
     private Passage[] passages;
-    private int passageCount = 0;
     
     //private Dungeon dungeonBeingParsed = null;
     private Room roomBeingParsed = null;
@@ -73,28 +71,49 @@ public class DungeonXMLHandler extends DefaultHandler{
         }
         // create Dungeon and ObjectDisplayGrid
         if (qName.equalsIgnoreCase("Dungeon")){
+            System.out.println("Find Dungeon");
             int bottomHeight = Integer.parseInt(attributes.getValue("bottomHeight"));
             int gameHeight = Integer.parseInt(attributes.getValue("gameHeight"));
             int topHeight = Integer.parseInt(attributes.getValue("topHeight"));
             int width = Integer.parseInt(attributes.getValue("width"));
             String name = attributes.getValue("name");
+ //           dungeon = new Dungeon();
+            System.out.println("Scanned inputs: ");
+            System.out.println("    bottomHeight: "+bottomHeight);
+            System.out.println("    gameHeight: "+gameHeight);
+            System.out.println("    topHeight: "+topHeight);
+            System.out.println("    width: "+width);
+            System.out.println("    name: "+name);
+            
             dungeon = new Dungeon();
             dungeon.getDungeon(name, width, gameHeight);
+            System.out.println("passing input to dungeon:");
+            System.out.println(dungeon.toString());
+            
             objectDisplayGrid = new ObjectDisplayGrid();
             objectDisplayGrid.getObjectDisplayGrid(gameHeight, width, topHeight);
-
+            //test
+            System.out.println(objectDisplayGrid.toString());
+            
+            //create new room and passage arraylist for this dungeon
+            rooms = new Room[0];
+            passages = new Passage[0];
         }
         else if (qName.equalsIgnoreCase("Rooms")){
+            System.out.println("Find Rooms");
         }
         //create new room, add to room ArrayList, and start room parse
         else if (qName.equalsIgnoreCase("Room")){
+            System.out.println("Find Room:");
             String roomID = attributes.getValue("room");
             Room room = new Room(roomID);
             int roomid = Integer.parseInt(roomID);
             room.setId(roomid);
             addRoom(room);
+            System.out.println("After add room");
             roomBeingParsed = room;
             currentDisplay = "Room";
+            System.out.println("End the start of the Room");
         }
         //create new passage, add to passage ArrayList, and start passage parse
         else if (qName.equalsIgnoreCase("passages")){
@@ -113,6 +132,7 @@ public class DungeonXMLHandler extends DefaultHandler{
             bVisible = true;
         }
         else if (qName.equalsIgnoreCase("posX")){
+            System.out.println("Find posX:");
             bPosX = true;
         }
         else if (qName.equalsIgnoreCase("posY")){
@@ -249,32 +269,37 @@ public class DungeonXMLHandler extends DefaultHandler{
             bActionCharValue = true;
         }
         
+        //System.out.println("After every start finding, read data");
         data = new StringBuilder();
+        //System.out.println("Data: "+ data.toString());
+        
     }
     
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
+        Displayable display = new Displayable();
+        
         switch (currentDisplay){
             case "Room":
-                Room display = roomBeingParsed;
+                display = (Displayable) roomBeingParsed;
                 break;
             case "Passage":
-                Passage display = passageBeingParsed;
+                display = (Displayable) passageBeingParsed;
                 break;
             case "Monster":
-                Monster display= monsterBeingParsed;
+                display = (Displayable) monsterBeingParsed;
                 break;
             case "Player":
-                Player display = playerBeingParsed;
+                display = (Displayable) playerBeingParsed;
                 break;
             case "Armor":
-                Armor display = armorBeingParsed;
+                display = (Displayable) armorBeingParsed;
                 break;
             case "Sword":
-                Sword display = swordBeingParsed;
+                display = (Displayable) swordBeingParsed;
                 break;
             case "Scroll":
-                Scroll display = scrollBeingParsed;
+                display = (Displayable) scrollBeingParsed;
                 break;
             default:
                 System.out.println("Unknown displayable error!");
@@ -294,7 +319,11 @@ public class DungeonXMLHandler extends DefaultHandler{
             bVisible = false;
         }
         else if (bPosX) {
+            System.out.println("before setPox");
+            System.out.println(display.toString());
+            System.out.println(data.toString());
             display.setPosX(Integer.parseInt(data.toString()));
+            System.out.println("after setPox");
             bPosX = false;
         }
         else if (bPosY) {
@@ -314,7 +343,7 @@ public class DungeonXMLHandler extends DefaultHandler{
             bHp = false;
         }
         else if (bType){
-            display.setType(data.toString());
+            display.setType(data.toString().charAt(0));
             bType = false;
         }
         else if (bIntValue){
@@ -339,6 +368,7 @@ public class DungeonXMLHandler extends DefaultHandler{
         else if (qName.equalsIgnoreCase("Rooms")){
         }
         else if (qName.equalsIgnoreCase("Room")){
+            
             roomBeingParsed = null;
         }
         else if (qName.equalsIgnoreCase("Passages")){
@@ -397,11 +427,20 @@ public class DungeonXMLHandler extends DefaultHandler{
     }
     
     private void addRoom(Room room){
-        rooms[roomCount++] = room;
+        System.out.println(room.toString());
+        System.out.println("Before Adding room:");
+        System.out.println(this.rooms.length);
+        for(Room r: rooms){
+            System.out.println(r.toString());
+        }
+        System.out.println("no result because of empty list");
+        rooms = Arrays.copyOf(rooms, rooms.length+1);
+        rooms[rooms.length-1] = room;
     }
     
     private void addPassage(Passage passage){
-        passages[passageCount++] = passage;
+        passages = Arrays.copyOf(passages, passages.length+1);
+        passages[passages.length-1] = passage;
     }
 }
 

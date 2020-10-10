@@ -17,5 +17,14 @@ public class ObjectDisplayGrid {
     public void setTopMessageHeight(int _topHeight){
         topHeight = _topHeight;
     }
+    
+    @Override
+    public String toString(){
+        String str = "ObjectDisplayGrid: \n";
+        str += "    gameHeight: "+gameHeight + "\n";
+        str += "    width: "+width + "\n";
+        str += "    topHeight: "+topHeight + "\n";
+        return str;
+    }
 
 }

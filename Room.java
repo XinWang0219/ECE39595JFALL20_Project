@@ -22,4 +22,14 @@ public class Room extends Structure{
         creature[creature.length-1] = monster;
         System.out.println("Room setCreature: "+creature);
     }
+    
+    @Override
+    public String toString(){
+        String str = "Room: \n";
+        str += "    roomID: "+roomID;
+//        for(Creature monster: creature){
+//            str += monster.toString();
+//        }
+        return str;
+    }
 }

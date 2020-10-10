@@ -11,15 +11,16 @@ public class Test {
     public static void main(String[] args){
         // check if a filename is passed in.  If not, print a usage message.
 	// If it is, open the file
-        
-        switch (args.length){
-            case 1:
-                fileName = "src/xmlExample" + args[0];
-                break;
-            default:
-                System.out.println("java Test <xmlfilename>");
-            return;
-        }
+        String fileName = "src/main/java/xmlFiles/dungeon.xml";
+//        switch (args.length){
+//            case 1:
+//                String fileName = "src/xmlExample" + args[0];
+//            
+//            default:
+//                System.out.println("java Test <xmlfilename>");
+//                return;
+//            
+//        }
         
         // Create a saxParserFactory, that will allow use to create a parser
 	// Use this line unchanged
@@ -33,16 +34,15 @@ public class Test {
 	    // just copy this
             SAXParser saxParser = saxParserFactory.newSAXParser();
 	    // just copy this
-            XMLHandler handler = new StudentXMLHandler();
+            DungeonXMLHandler handler = new DungeonXMLHandler();
 	    // just copy this.  This will parse the xml file given by fileName
+            System.out.println("Before parsing the file");
             saxParser.parse(new File(fileName), handler);
 	    // This will change depending on what kind of XML we are parsing
-            Student[ ] students = handler.getStudents();
-	    // print out all of the students.  This will change depending on 
-	    // what kind of XML we are parsing
-            for (Student student : students) {
-                System.out.println(student);
-            }
+            Dungeon dungeon = handler.getDungeons();
+
+            System.out.println(dungeon);
+            System.out.println("test print");
             /*
              * the above is a different form of 
              for (int i = 0; i < students.length; i++) {
