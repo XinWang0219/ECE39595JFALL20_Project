@@ -1,6 +1,11 @@
 public class EndGame extends CreatureAction {
-    public EndGame(String name, Creature owner){
+    private Creature owner;
+    private String name;
+    
+    public EndGame(String _name, Creature _owner){
         //System.out.println("CreatureAction EndGame-> name:"+name+"; owner: "+owner.name);
+        name = _name;
+        owner = _owner;
     }
 
     @Override

@@ -1,6 +1,11 @@
 public class Teleport extends CreatureAction{
-    public Teleport(String name, Creature owner){
+    private Creature owner;
+    private String name;
+    
+    public Teleport(String _name, Creature _owner){
         //System.out.println("CreatureAction Teleport-> name:"+name+"; owner: "+owner.name);
+        name = _name;
+        owner = _owner;
     }
 
     @Override

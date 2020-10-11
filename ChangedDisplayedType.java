@@ -1,6 +1,12 @@
 public class ChangedDisplayedType extends CreatureAction{
-    public ChangedDisplayedType(String name, Creature owner){
+    private Creature owner;
+    private String name;
+    
+    public ChangedDisplayedType(String _name, Creature _owner){
         //System.out.println("CreatureAction ChangeDisplayedType-> name:"+name+"; owner: "+owner.name);
+        owner = _owner;
+        name = _name;
+                
     }
 
     @Override

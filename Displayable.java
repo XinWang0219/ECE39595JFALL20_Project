@@ -20,58 +20,58 @@ public class Displayable{
 
     public void setInvisible(){
         visible = 0;
-        System.out.println("Visible: "+visible);
+        //System.out.println("Visible: "+visible);
     }
 
     public void setVisible(){
         visible = 1;
-        System.out.println("Visible: "+visible);
+        //System.out.println("Visible: "+visible);
     }
 
     public void setMaxHit(int _maxHit){
-        System.out.println("went into setMaxHit");
+        //System.out.println("went into setMaxHit");
         maxHit = _maxHit;
-        System.out.println(maxHit);
+        //System.out.println(maxHit);
     }
 
     public void setHpMove(int _hpMoves){
         hpMoves = _hpMoves;
-        System.out.println(hpMoves);
+        //System.out.println(hpMoves);
     }
 
     public void setHp(int _Hp){
         Hp = _Hp;
-        System.out.println(Hp);
+        //System.out.println(Hp);
     }
 
     public void setType(char _t){
         t = _t;
-        System.out.println(t);
+        //System.out.println(t);
     }
 
     public void setIntValue(int _v){
         v = _v;
-        System.out.println(v);
+        //System.out.println(v);
     }
 
     public void setPosX(int x){
         posX = x;
-        System.out.println(posX);
+        //System.out.println(posX);
     }
 
     public void setPosY(int y){
         posY = y;
-        System.out.println(posY);
+        //System.out.println(posY);
     }
 
     public void setWidth(int x){
         width = x;
-        System.out.println(width);
+        //System.out.println(width);
     }
 
     public void setHeight(int y){
         height = y;
-        System.out.println(height);
+        //System.out.println(height);
     }
     
     //adding name property
@@ -82,16 +82,16 @@ public class Displayable{
     @Override
     public String toString(){
         String str = "Displayable: \n";
-        str += "    visible: "+visible;
-        str += "    maxHit: "+maxHit;
-        str += "    hpMoves: "+hpMoves;
-        str += "    Hp: "+Hp;
-        str += "    t: "+t;
-        str += "    v: "+v;
-        str += "    posX"+posX;
-        str += "    posY"+posY;
-        str += "    width"+width;
-        str += "    height"+height;
+        str += "    visible: "+visible + "\n";
+        str += "    maxHit: "+maxHit + "\n";
+        str += "    hpMoves: "+hpMoves + "\n";
+        str += "    Hp: "+Hp + "\n";
+        str += "    t: "+t + "\n";
+        str += "    v: "+v + "\n";
+        str += "    posX"+posX + "\n";
+        str += "    posY"+posY + "\n";
+        str += "    width"+width + "\n";
+        str += "    height"+height + "\n";
         
         return str;
     }

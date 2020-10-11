@@ -25,7 +25,7 @@ public class Dungeon {
         roomList[roomList.length - 1] = room;
     }
     
-    public void addCreatue(Creature creature){
+    public void addCreature(Creature creature){
         creatureList = Arrays.copyOf(creatureList, creatureList.length+1);
         creatureList[creatureList.length-1] = creature;
     }

@@ -28,7 +28,7 @@ public class Room extends Structure{
     public String toString(){
         String str = "Room: \n";
         str += super.toString();
-        str += "    roomID: "+roomID;
+        str += "    roomID: "+roomID + "\n";
         for(Creature monster: creature){
             str += monster.toString();
         }

@@ -1,6 +1,11 @@
 public class UpdateDisplay extends CreatureAction{
-    public UpdateDisplay(String name, Creature owner){
+    private Creature owner;
+    private String name;
+    public UpdateDisplay(String _name, Creature _owner){
         //System.out.println("CreatureAction UpdateDisplay-> name:"+name+"; owner: "+owner.name);
+        owner = _owner;
+        name = _name;
+        
     }
 
     @Override
