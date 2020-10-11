@@ -1,14 +1,14 @@
-import java.util.Arrays;
+import java.util.*;
 
 public class Dungeon {
     String name;
     int width;
     int gameHeight;
     
-    Room[] roomList;
-    Creature[] creatureList;
-    Passage[] passageList;
-    Item[] itemList;
+    List<Room> roomList = new ArrayList<Room>();
+    List<Creature> creatureList = new ArrayList<Creature>();
+    List<Passage> passageList = new ArrayList<Passage>();
+    List<Item> itemList = new ArrayList<Item>();
     
     public Dungeon(){
         
@@ -21,23 +21,19 @@ public class Dungeon {
     }
     
     public void addRoom(Room room){
-        roomList = Arrays.copyOf(roomList, roomList.length+1);
-        roomList[roomList.length - 1] = room;
+        roomList.add(room);
     }
     
     public void addCreature(Creature creature){
-        creatureList = Arrays.copyOf(creatureList, creatureList.length+1);
-        creatureList[creatureList.length-1] = creature;
+        creatureList.add(creature);
     }
     
     public void addPassage(Passage passage){
-        passageList = Arrays.copyOf(passageList, passageList.length+1);
-        passageList[passageList.length-1] = passage; 
+        passageList.add(passage);
     }
     
     public void addItem(Item item){
-        itemList = Arrays.copyOf(itemList, itemList.length+1);
-        itemList[itemList.length-1] = item;
+        itemList.add(item);
     }
     
     @Override
@@ -46,18 +42,18 @@ public class Dungeon {
         str += "    name: "+name + "\n";
         str += "    width: "+width + "\n";
         str += "    gameHeight: "+gameHeight + "\n";
-//        for (Room room: roomList){
-//            str += room.toString() + "\n";
-//        }
-//        for (Creature creature: creatureList){
-//            str += creature.toString() + "\n";
-//        }
-//        for (Passage passage: passageList){
-//            str += passage.toString() + "\n";
-//        }
-//        for (Item item: itemList){
-//            str += item.toString() + "\n";
-//        }
+        for (Room room: roomList){
+            str += room.toString() + "\n";
+        }
+        for (Creature creature: creatureList){
+            str += creature.toString() + "\n";
+        }
+        for (Passage passage: passageList){
+            str += passage.toString() + "\n";
+        }
+        for (Item item: itemList){
+            str += item.toString() + "\n";
+        }
         return str;
     }
 }

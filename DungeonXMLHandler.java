@@ -251,7 +251,7 @@ public class DungeonXMLHandler extends DefaultHandler{
                 case "Teleport":
                     creatureAction = new Teleport(name, owner);
                     break;
-                case "ChangedDisplayType":
+                case "ChangeDisplayedType":
                     creatureAction = new ChangedDisplayedType(name, owner);
                     break;
                 case "EndGame":
@@ -304,30 +304,35 @@ public class DungeonXMLHandler extends DefaultHandler{
     public void endElement(String uri, String localName, String qName) throws SAXException {
         Displayable display = new Displayable();
         
-        switch (currentDisplay.get(currentDisplay.size() - 1)){
-            case "Room":
-                display = (Displayable) roomBeingParsed;
-                break;
-            case "Passage":
-                display = (Displayable) passageBeingParsed;
-                break;
-            case "Monster":
-                display = (Displayable) monsterBeingParsed;
-                break;
-            case "Player":
-                display = (Displayable) playerBeingParsed;
-                break;
-            case "Armor":
-                display = (Displayable) armorBeingParsed;
-                break;
-            case "Sword":
-                display = (Displayable) swordBeingParsed;
-                break;
-            case "Scroll":
-                display = (Displayable) scrollBeingParsed;
-                break;
-            default:
-                System.out.println("Unknown displayable error!");
+        if (currentDisplay.size() == 0){
+            
+        }
+        else{
+            switch (currentDisplay.get(currentDisplay.size() - 1)){
+                case "Room":
+                    display = (Displayable) roomBeingParsed;
+                    break;
+                case "Passage":
+                    display = (Displayable) passageBeingParsed;
+                    break;
+                case "Monster":
+                    display = (Displayable) monsterBeingParsed;
+                    break;
+                case "Player":
+                    display = (Displayable) playerBeingParsed;
+                    break;
+                case "Armor":
+                    display = (Displayable) armorBeingParsed;
+                    break;
+                case "Sword":
+                    display = (Displayable) swordBeingParsed;
+                    break;
+                case "Scroll":
+                    display = (Displayable) scrollBeingParsed;
+                    break;
+                default:
+                    System.out.println("Unknown displayable error!");
+            }
         }
         
         if (bVisible) {
@@ -380,20 +385,19 @@ public class DungeonXMLHandler extends DefaultHandler{
             display.setHeight(Integer.parseInt(data.toString()));
             bHeight = false;
         }
-
         //ending BeingParsed
         else if (qName.equalsIgnoreCase("Dungeon")){
-            System.out.println("end dungeon parse");
+            //System.out.println("end dungeon parse");
         }
         else if (qName.equalsIgnoreCase("Rooms")){
-            System.out.println("end rooms parse");
+            //System.out.println("end rooms parse");
         }
         else if (qName.equalsIgnoreCase("Room")){
             String cd = currentDisplay.get(currentDisplay.size() - 1);
             currentDisplay.remove(cd);
-            System.out.println("Room: "+roomBeingParsed.toString());
+            //System.out.println("Room: "+roomBeingParsed.toString());
             roomBeingParsed = null;
-            System.out.println("end room parse");
+            //System.out.println("end room parse");
             
         }
         else if (qName.equalsIgnoreCase("Passages")){

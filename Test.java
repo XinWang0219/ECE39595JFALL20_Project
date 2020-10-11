@@ -11,7 +11,7 @@ public class Test {
     public static void main(String[] args){
         // check if a filename is passed in.  If not, print a usage message.
 	// If it is, open the file
-        String fileName = "src/main/java/xmlFiles/dungeon.xml";
+        String fileName = "src/main/java/xmlFiles/testDrawing.xml";
 //        switch (args.length){
 //            case 1:
 //                String fileName = "src/xmlExample" + args[0];
@@ -36,13 +36,13 @@ public class Test {
 	    // just copy this
             DungeonXMLHandler handler = new DungeonXMLHandler();
 	    // just copy this.  This will parse the xml file given by fileName
-            System.out.println("Before parsing the file");
+            //System.out.println("Before parsing the file");
             saxParser.parse(new File(fileName), handler);
 	    // This will change depending on what kind of XML we are parsing
             Dungeon dungeon = handler.getDungeons();
 
             System.out.println(dungeon);
-            System.out.println("test print");
+            //System.out.println("test print");
             /*
              * the above is a different form of 
              for (int i = 0; i < students.length; i++) {

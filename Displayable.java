@@ -88,10 +88,10 @@ public class Displayable{
         str += "    Hp: "+Hp + "\n";
         str += "    t: "+t + "\n";
         str += "    v: "+v + "\n";
-        str += "    posX"+posX + "\n";
-        str += "    posY"+posY + "\n";
-        str += "    width"+width + "\n";
-        str += "    height"+height + "\n";
+        str += "    posX: "+posX + "\n";
+        str += "    posY: "+posY + "\n";
+        str += "    width: "+width + "\n";
+        str += "    height: "+height + "\n";
         
         return str;
     }
