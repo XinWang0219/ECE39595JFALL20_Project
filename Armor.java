@@ -3,6 +3,7 @@ public class Armor extends Item{
     private int room, serial;
 
     public Armor(String string){
+        super();
         name = string;
         System.out.println("Armor: " +name);
     }
@@ -16,5 +17,13 @@ public class Armor extends Item{
         room = _room;
         serial = _serial;
         System.out.println("Armor setID: "+room +"; " + serial);
+    }
+    
+    @Override
+    public String toString(){
+        String str = "Armor: \n";
+        str += "    name: "+name+ "\n";
+        str += "    room: "+room+"; serial: "+serial+"\n";
+        return str;
     }
 }

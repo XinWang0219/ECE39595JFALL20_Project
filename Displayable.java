@@ -29,6 +29,7 @@ public class Displayable{
     }
 
     public void setMaxHit(int _maxHit){
+        System.out.println("went into setMaxHit");
         maxHit = _maxHit;
         System.out.println(maxHit);
     }
