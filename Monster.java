@@ -9,12 +9,22 @@ public class Monster extends Creature{
 
     public void setName(String string){
         name = string;
-        System.out.println("Monster setName: "+name);
+        //System.out.println("Monster setName: "+name);
     }
 
     public void setID(int _room, int _serial){
         room = _room;
         serial = _serial;
-        System.out.println("Monster setID: " + room + "; " + serial);
+        //System.out.println("Monster setID: " + room + "; " + serial);
+    }
+
+    @Override
+    public String toString( ) {
+        String str = "Monster: \n";
+        str += super.toString( );
+        str += "   name: " + name + "\n";
+        str += "   room: " + room + "\n";
+        str += "   serial: " + serial + "\n";
+        return str;
     }
 }

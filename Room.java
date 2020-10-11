@@ -8,7 +8,7 @@ public class Room extends Structure{
     public Room(String string) {
         super();
         room = string;
-        System.out.println(room);
+        //System.out.println(room);
         creature = new Creature[0];
     }
 

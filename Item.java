@@ -8,6 +8,14 @@ public class Item extends Displayable{
 
     public void setOwner(Creature _owner){
         owner = _owner;
-        System.out.println("Item setOwner: "+owner);
+        //System.out.println("Item setOwner: "+owner);
+    }
+
+    @Override
+    public String toString( ) {
+        String str = "Item: \n";
+        str += super.toString( );
+        str += "   owner: " + owner + "\n";
+        return str;
     }
 }

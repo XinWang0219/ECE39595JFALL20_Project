@@ -5,23 +5,24 @@ public class Armor extends Item{
     public Armor(String string){
         super();
         name = string;
-        System.out.println("Armor: " +name);
+        //System.out.println("Armor: " +name);
     }
 
     public void setName(String _name){
         name = _name;
-        System.out.println("Armor setName: "+name);
+        //System.out.println("Armor setName: "+name);
     }
 
     public void setID(int _room, int _serial){
         room = _room;
         serial = _serial;
-        System.out.println("Armor setID: "+room +"; " + serial);
+        //System.out.println("Armor setID: "+room +"; " + serial);
     }
     
     @Override
     public String toString(){
         String str = "Armor: \n";
+        str += super.toString( );
         str += "    name: "+name+ "\n";
         str += "    room: "+room+"; serial: "+serial+"\n";
         return str;
