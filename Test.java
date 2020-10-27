@@ -7,20 +7,34 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.SAXException;
 
-public class Test {
-    public static void main(String[] args){
+public class Test implements Runnable{
+    
+    private static ObjectDisplayGrid displayGrid = null;
+    
+    Test() {
+        
+    }
+    
+    @Override
+    public void run(){
+        displayGrid.fireUp();
+        displayGrid.initializeDisplay();
+    }
+    
+    
+    public static void main(String[] args) throws Exception{
         // check if a filename is passed in.  If not, print a usage message.
 	// If it is, open the file
-        String fileName = "src/main/java/xmlFiles/testDrawing.xml";
-//        switch (args.length){
-//            case 1:
-//                String fileName = "src/xmlExample" + args[0];
-//            
-//            default:
-//                System.out.println("java Test <xmlfilename>");
-//                return;
-//            
-//        }
+        //String fileName = "src/main/java/xmlFiles/testDrawing.xml";
+        String fileName;
+        switch (args.length){
+            case 1:
+                fileName = "src/main/java/xmlFiles/" + args[0];
+                break;
+            default:
+                System.out.println("java Test <xmlfilename>");
+                return;      
+        }
         
         // Create a saxParserFactory, that will allow use to create a parser
 	// Use this line unchanged
@@ -40,6 +54,7 @@ public class Test {
             saxParser.parse(new File(fileName), handler);
 	    // This will change depending on what kind of XML we are parsing
             Dungeon dungeon = handler.getDungeons();
+            displayGrid = handler.getDisplayGrid(); 
 
             System.out.println(dungeon);
             //System.out.println("test print");
@@ -53,6 +68,11 @@ public class Test {
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace(System.out);
         }
+        
+        Test test = new Test();
+        Thread testThread = new Thread(test);
+        testThread.start();
+        testThread.join();
     }
 
 }

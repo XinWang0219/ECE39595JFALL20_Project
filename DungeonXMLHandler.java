@@ -74,6 +74,10 @@ public class DungeonXMLHandler extends DefaultHandler{
         return dungeon;
     }
     
+    public ObjectDisplayGrid getDisplayGrid(){
+        return objectDisplayGrid;
+    }
+    
     public DungeonXMLHandler(){
         
     }
@@ -100,7 +104,7 @@ public class DungeonXMLHandler extends DefaultHandler{
             //System.out.println(dungeon.toString());
             
             objectDisplayGrid = new ObjectDisplayGrid();
-            objectDisplayGrid.getObjectDisplayGrid(gameHeight, width, topHeight);
+            objectDisplayGrid.getObjectDisplayGrid(gameHeight, width, topHeight, bottomHeight);
             //test
             //System.out.println(objectDisplayGrid.toString());
             
