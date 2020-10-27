@@ -1,3 +1,4 @@
+package proj1;
 public class Player extends Creature{
 
     private Item sword;

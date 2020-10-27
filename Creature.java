@@ -1,3 +1,4 @@
+package proj1;
 public class Creature extends Displayable{
 
     private int h;      // hp

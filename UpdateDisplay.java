@@ -1,3 +1,5 @@
+
+package proj1;
 public class UpdateDisplay extends CreatureAction{
     private Creature owner;
     private String name;

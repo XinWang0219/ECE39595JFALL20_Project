@@ -1,3 +1,4 @@
+package proj1;
 public class Monster extends Creature{
 
     private int room, serial;

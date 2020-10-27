@@ -1,3 +1,4 @@
+package proj1;
 public class Scroll extends Item{
     private String name;
     private int room, serial;

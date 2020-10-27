@@ -1,3 +1,4 @@
+package proj1;
 public class ChangedDisplayedType extends CreatureAction{
     private Creature owner;
     private String name;

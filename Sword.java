@@ -1,3 +1,4 @@
+package proj1;
 public class Sword extends Item{
     private String name;
     private int room, serial;

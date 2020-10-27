@@ -1,3 +1,4 @@
+package proj1;
 public class EndGame extends CreatureAction {
     private Creature owner;
     private String name;

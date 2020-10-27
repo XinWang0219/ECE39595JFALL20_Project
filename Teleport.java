@@ -1,3 +1,5 @@
+
+package proj1;
 public class Teleport extends CreatureAction{
     private Creature owner;
     private String name;

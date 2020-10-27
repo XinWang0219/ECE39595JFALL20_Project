@@ -1,3 +1,4 @@
+package proj1;
 import java.util.*;
 public class Room extends Structure{
     private int roomID;

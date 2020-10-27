@@ -1,3 +1,4 @@
+package proj1;
 public class Item extends Displayable{
 
     private Creature owner;

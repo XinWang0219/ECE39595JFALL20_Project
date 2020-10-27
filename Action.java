@@ -1,3 +1,4 @@
+package proj1;
 public class Action {
     String msg;
     int v;

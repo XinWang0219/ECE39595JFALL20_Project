@@ -1,3 +1,4 @@
+package proj1;
 public class DropPack extends CreatureAction {
     private Creature owner;
     private String name;

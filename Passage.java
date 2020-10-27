@@ -1,3 +1,4 @@
+package proj1;
 public class Passage extends Structure{
 
     private String name;

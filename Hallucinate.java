@@ -1,3 +1,4 @@
+package proj1;
 public class Hallucinate extends ItemAction{
     private Creature owner;
 

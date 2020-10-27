@@ -1,3 +1,4 @@
+package proj1;
 public class Displayable{
 
     private int visible;
