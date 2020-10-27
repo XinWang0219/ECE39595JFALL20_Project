@@ -1,4 +1,3 @@
-package proj1;
 public class Armor extends Item{
     private String name;
     private int room, serial;
@@ -18,6 +17,14 @@ public class Armor extends Item{
         room = _room;
         serial = _serial;
         //System.out.println("Armor setID: "+room +"; " + serial);
+    }
+
+    public int getRoom(){
+        return room;
+    }
+
+    public int getSerial(){
+        return serial;
     }
     
     @Override

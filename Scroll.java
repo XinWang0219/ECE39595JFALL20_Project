@@ -1,4 +1,3 @@
-package proj1;
 public class Scroll extends Item{
     private String name;
     private int room, serial;
@@ -12,6 +11,14 @@ public class Scroll extends Item{
         room = _room;
         serial = _serial;
         //System.out.println("Monster setHP: " + room + "; " + serial);
+    }
+
+    public int getRoom(){
+        return room;
+    }
+
+    public int getSerial(){
+        return serial;
     }
 
     @Override

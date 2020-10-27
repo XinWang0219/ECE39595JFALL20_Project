@@ -1,4 +1,3 @@
-package proj1;
 public class Monster extends Creature{
 
     private int room, serial;
@@ -17,6 +16,14 @@ public class Monster extends Creature{
         room = _room;
         serial = _serial;
         //System.out.println("Monster setID: " + room + "; " + serial);
+    }
+
+    public int getRoom(){
+        return room;
+    }
+
+    public int getSerial(){
+        return serial;
     }
 
     @Override

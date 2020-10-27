@@ -1,4 +1,3 @@
-package proj1;
 public class Structure extends Displayable{
     public Structure(){
         super();

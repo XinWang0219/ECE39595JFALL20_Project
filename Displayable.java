@@ -1,4 +1,3 @@
-package proj1;
 public class Displayable{
 
     private int visible;
@@ -50,6 +49,10 @@ public class Displayable{
         //System.out.println(t);
     }
 
+    public char getType(){
+        return t;
+    }
+
     public void setIntValue(int _v){
         v = _v;
         //System.out.println(v);
@@ -60,14 +63,30 @@ public class Displayable{
         //System.out.println(posX);
     }
 
+    public int getPosX(){
+        return posX;
+    }
+
     public void setPosY(int y){
         posY = y;
         //System.out.println(posY);
     }
 
+    public int getPosY(){
+        return posY;
+    }
+
+    public int getWidth(){
+        return width;
+    }
+
     public void setWidth(int x){
         width = x;
         //System.out.println(width);
+    }
+
+    public int getHeight(){
+        return height;
     }
 
     public void setHeight(int y){

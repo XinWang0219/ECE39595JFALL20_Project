@@ -1,4 +1,3 @@
-package proj1;
 import java.util.*;
 public class Room extends Structure{
     private int roomID;
@@ -16,6 +15,10 @@ public class Room extends Structure{
     public void setId(int room){
         roomID = room;
         //System.out.println("Room setID: "+roomID);
+    }
+
+    public int getRoomID(){
+        return roomID;
     }
 
     public void setCreature(Creature monster){

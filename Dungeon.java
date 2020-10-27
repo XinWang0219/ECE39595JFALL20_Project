@@ -1,4 +1,3 @@
-package proj1;
 import java.util.*;
 
 public class Dungeon {
