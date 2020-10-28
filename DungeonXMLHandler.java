@@ -436,16 +436,40 @@ public class DungeonXMLHandler extends DefaultHandler{
             playerBeingParsed = null;
         }
         else if (qName.equalsIgnoreCase("Armor")){
+            String belong = currentDisplay.get(currentDisplay.size()-2);
+            if (belong == "Monster"){
+                armorBeingParsed.setPosX(monsterBeingParsed.getPosX());
+                armorBeingParsed.setPosY(monsterBeingParsed.getPosY());
+                if (monsterBeingParsed.isVisible()){
+                    armorBeingParsed.setVisible();
+                }
+            }
             String cd = currentDisplay.get(currentDisplay.size() - 1);
             currentDisplay.remove(cd);
             armorBeingParsed = null;
         }
         else if (qName.equalsIgnoreCase("Sword")){
+            String belong = currentDisplay.get(currentDisplay.size()-2);
+            if (belong == "Monster"){
+                swordBeingParsed.setPosX(monsterBeingParsed.getPosX());
+                swordBeingParsed.setPosY(monsterBeingParsed.getPosY());
+                if (monsterBeingParsed.isVisible()){
+                    swordBeingParsed.setVisible();
+                }
+            }
             String cd = currentDisplay.get(currentDisplay.size() - 1);
             currentDisplay.remove(cd);
             swordBeingParsed = null;
         }
         else if (qName.equalsIgnoreCase("Scroll")){
+            String belong = currentDisplay.get(currentDisplay.size()-2);
+            if (belong == "Monster"){
+                scrollBeingParsed.setPosX(monsterBeingParsed.getPosX());
+                scrollBeingParsed.setPosY(monsterBeingParsed.getPosY());
+                if (monsterBeingParsed.isVisible()){
+                    scrollBeingParsed.setVisible();
+                }
+            }
             String cd = currentDisplay.get(currentDisplay.size() - 1);
             currentDisplay.remove(cd);
             scrollBeingParsed = null;

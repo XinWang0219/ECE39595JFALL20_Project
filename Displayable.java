@@ -1,4 +1,3 @@
-//package ECE39595JFALL20_Project;
 public class Displayable{
 
     private int visible;
@@ -93,6 +92,15 @@ public class Displayable{
     public void setHeight(int y){
         height = y;
         //System.out.println(height);
+    }
+    
+    public boolean isVisible(){
+        if (visible == 1){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     
     //adding name property
