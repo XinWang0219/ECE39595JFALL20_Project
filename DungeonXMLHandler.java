@@ -1,5 +1,5 @@
-//package proj1;
-//package ECE39595JFALL20_Project;
+
+import java.util.Arrays;
 import java.util.*;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -39,7 +39,7 @@ public class DungeonXMLHandler extends DefaultHandler{
     private List<String> currentDisplay = new ArrayList<String>(); //the name of parameters
     private boolean actionflag = false; //true: CreatureAction; false: ItemAction
     private Creature owner = null; //store the address of current creature
-           
+    private Point point = null;
     
     //bX fileds
     private boolean bVisible = false;
@@ -105,7 +105,7 @@ public class DungeonXMLHandler extends DefaultHandler{
             //System.out.println(dungeon.toString());
             
             objectDisplayGrid = new ObjectDisplayGrid(gameHeight, width, topHeight, bottomHeight);
-            //objectDisplayGrid.getObjectDisplayGrid(gameHeight, width, topHeight, bottomHeight);
+            objectDisplayGrid.getObjectDisplayGrid(gameHeight, width, topHeight, bottomHeight);
             //test
             //System.out.println(objectDisplayGrid.toString());
             
@@ -354,11 +354,24 @@ public class DungeonXMLHandler extends DefaultHandler{
             bVisible = false;
         }
         else if (bPosX) {
-            display.setPosX(Integer.parseInt(data.toString()));
+            if (currentDisplay.get(currentDisplay.size() - 1) == "Passage" ){
+                point = new Point();
+                point.setX(Integer.parseInt(data.toString()));
+            }
+            else {
+                display.setPosX(Integer.parseInt(data.toString()));
+            }   
             bPosX = false;
         }
         else if (bPosY) {
-            display.setPosY(Integer.parseInt(data.toString()));
+            if (currentDisplay.get(currentDisplay.size() - 1) == "Passage" ){
+                point.setY(Integer.parseInt(data.toString()));
+                passageBeingParsed.addPoint(point);
+                point = null;
+            }
+            else {
+                display.setPosY(Integer.parseInt(data.toString()));
+            }
             bPosY = false;
         }
         else if (bMaxHit){
