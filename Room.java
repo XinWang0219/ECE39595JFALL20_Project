@@ -1,4 +1,5 @@
 import java.util.*;
+//package ECE39595JFALL20_Project;
 public class Room extends Structure{
     private int roomID;
     private String room;

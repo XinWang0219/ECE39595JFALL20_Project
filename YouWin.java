@@ -1,4 +1,4 @@
-package proj1;
+///package proj1;
 public class YouWin extends CreatureAction {
     private Creature owner;
     private String name;

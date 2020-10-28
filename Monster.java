@@ -1,3 +1,4 @@
+//package ECE39595JFALL20_Project;
 public class Monster extends Creature{
 
     private int room, serial;

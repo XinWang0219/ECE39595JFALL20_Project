@@ -1,3 +1,4 @@
+//package ECE39595JFALL20_Project;
 public class Creature extends Displayable{
 
     private int h;      // hp

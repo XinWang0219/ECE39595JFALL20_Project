@@ -1,3 +1,4 @@
+//package ECE39595JFALL20_Project;
 public class Structure extends Displayable{
     public Structure(){
         super();

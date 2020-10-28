@@ -1,8 +1,10 @@
+//package ECE39595JFALL20_Project;
 import java.io.File;
 import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
 
 import org.xml.sax.SAXException;
 
@@ -32,26 +34,26 @@ public class Test implements Runnable{
                 }
             }
 
-            for (int j = 0; j < dungeon.itemList.size(); j++) {
-                if (dungeon.itemList.get(j) instanceof Armor){
-                    Armor armor = (Armor) dungeon.itemList.get(j);
-                    if (armor.getRoom() == room.getRoomID()) {
-                        displayGrid.displayArmor(armor, room);
-                    }
-                }
-                else if(dungeon.itemList.get(j) instanceof Sword){
-                    Sword sword = (Sword) dungeon.itemList.get(j);
-                    if (sword.getRoom() == room.getRoomID()) {
-                        displayGrid.displaySword(sword, room);
-                    }
-                }
-                else{
-                    Scroll scroll = (Scroll) dungeon.itemList.get(j);
-                    if (scroll.getRoom() == room.getRoomID()) {
-                        displayGrid.displayScroll(scroll, room);
-                    }
-                }
-            }
+//            for (int j = 0; j < dungeon.itemList.size(); j++) {
+//                if (dungeon.itemList.get(j) instanceof Armor){
+//                    Armor armor = (Armor) dungeon.itemList.get(j);
+//                    if (armor.getRoom() == room.getRoomID()) {
+//                        displayGrid.displayArmor(armor, room);
+//                    }
+//                }
+//                else if(dungeon.itemList.get(j) instanceof Sword){
+//                    Sword sword = (Sword) dungeon.itemList.get(j);
+//                    if (sword.getRoom() == room.getRoomID()) {
+//                        displayGrid.displaySword(sword, room);
+//                    }
+//                }
+//                else{
+//                    Scroll scroll = (Scroll) dungeon.itemList.get(j);
+//                    if (scroll.getRoom() == room.getRoomID()) {
+//                        displayGrid.displayScroll(scroll, room);
+//                    }
+//                }
+//            }
         }
     }
 

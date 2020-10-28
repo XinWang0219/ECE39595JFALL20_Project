@@ -28,7 +28,7 @@
 //    }
 //
 //}
-package ECE39595JFALL20_Project;
+
 import asciiPanel.AsciiPanel;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -145,20 +145,20 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
         // floor
         for (int i = room.getPosX(); i < (room.getPosX() + room.getWidth()); i++) {
             for (int j = (topHeight + room.getPosY()); j < (topHeight + room.getPosY() + room.getHeight());j++) {
-                addObjectToDisplay(fl, i, topHeight);
+                addObjectToDisplay(fl, i, j);
             }
         }
 
         // vertical wall
-        for (int i = (topHeight + room.getPosY()); i < (topHeight + room.getPosY() + room.getHeight()); i++) {
+        for (int i = (topHeight + room.getPosY()); i < (topHeight + room.getPosY() + room.getHeight()-1); i++) {
             addObjectToDisplay(wall, room.getPosX(), i);
-            addObjectToDisplay(wall, (room.getPosX() + room.getWidth()),i);
+            addObjectToDisplay(wall, (room.getPosX() + room.getWidth()-1),i);
         }
 
         //horizontal wall
         for (int i = room.getPosX() ; i < (room.getPosX() + room.getWidth()); i++) {
             addObjectToDisplay(wall, i, (topHeight+room.getPosY()));
-            addObjectToDisplay(wall, i,(room.getPosY() + room.getHeight() + topHeight));
+            addObjectToDisplay(wall, i,(room.getPosY() + room.getHeight() + topHeight-1));
         }
 
         terminal.repaint();
@@ -176,9 +176,11 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
 
     public final void displayMonster(Monster monster, Room room) {
         Char mon = new Char(monster.getType());
-        mon_x = room.getPosX() + monster.getPosX();
-        mon_y = room.getPosY() + monster.getPosY() + topHeight;
+        int mon_x = room.getPosX() + monster.getPosX();
+        int mon_y = room.getPosY() + monster.getPosY() + topHeight;
         addObjectToDisplay(mon, mon_x, mon_y);
+
+        terminal.repaint();
     }
 
     public void addObjectToDisplay(Char ch, int x, int y) {

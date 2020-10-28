@@ -1,4 +1,4 @@
-package ECE39595JFALL20_Project.asciiPanel;
+package asciiPanel;//package ECE39595JFALL20_Project.asciiPanel;
 
 import java.awt.Color;
 import java.awt.Dimension;

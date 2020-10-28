@@ -1,4 +1,5 @@
-package proj1;
+//package proj1;
+//package ECE39595JFALL20_Project;
 public class EndGame extends CreatureAction {
     private Creature owner;
     private String name;

@@ -1,4 +1,4 @@
-package ECE39595JFALL20_Project.asciiPanel;
+package asciiPanel;//package ECE39595JFALL20_Project.asciiPanel;
 
 /**
  * This class holds provides all available Fonts for the AsciiPanel.

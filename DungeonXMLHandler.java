@@ -1,5 +1,5 @@
-package proj1;
-import java.util.Arrays;
+//package proj1;
+//package ECE39595JFALL20_Project;
 import java.util.*;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -104,8 +104,8 @@ public class DungeonXMLHandler extends DefaultHandler{
             //System.out.println("passing input to dungeon:");
             //System.out.println(dungeon.toString());
             
-            objectDisplayGrid = new ObjectDisplayGrid();
-            objectDisplayGrid.getObjectDisplayGrid(gameHeight, width, topHeight, bottomHeight);
+            objectDisplayGrid = new ObjectDisplayGrid(gameHeight, width, topHeight, bottomHeight);
+            //objectDisplayGrid.getObjectDisplayGrid(gameHeight, width, topHeight, bottomHeight);
             //test
             //System.out.println(objectDisplayGrid.toString());
             

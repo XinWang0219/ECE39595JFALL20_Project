@@ -1,5 +1,5 @@
-
-package proj1;
+//package ECE39595JFALL20_Project;
+//package proj1;
 public class UpdateDisplay extends CreatureAction{
     private Creature owner;
     private String name;

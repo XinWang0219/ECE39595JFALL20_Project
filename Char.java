@@ -1,3 +1,4 @@
+//package ECE39595JFALL20_Project;
 public class Char {
 
     public static final String CLASSID = "Char";

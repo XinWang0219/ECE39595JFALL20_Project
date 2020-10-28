@@ -1,4 +1,5 @@
-package proj1;
+//package proj1;
+//package ECE39595JFALL20_Project;
 public class BlessCurseOwner extends ItemAction {
     private Creature owner;
     public BlessCurseOwner(Creature _owner){
