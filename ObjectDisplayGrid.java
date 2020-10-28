@@ -119,7 +119,6 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
         for(int i = 0; i < dungeon.roomList.size(); i++){
             Room room = dungeon.roomList.get(i);
             displayRoom(room);
-
             for (int j = 0; j < dungeon.itemList.size(); j++) {
                 if (dungeon.itemList.get(j) instanceof Armor){
                     Armor armor = (Armor) dungeon.itemList.get(j);
@@ -281,7 +280,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
         Point end = pointList.get((pointList.size() - 1));
         addObjectToDisplay(door, start.getX(), (start.getY()+topHeight));
         addObjectToDisplay(door, end.getX(), (end.getY()+topHeight));
-        //terminal.repaint();
+        terminal.repaint();
     }
 
     public List<Point> getLine(Point p1, Point p2){
