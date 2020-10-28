@@ -12,6 +12,7 @@ public class Test implements Runnable{
 
     private static ObjectDisplayGrid displayGrid = null;
     private static Dungeon dungeon = null;
+    //private static Player player = null;
 
     Test() {
 
@@ -25,6 +26,7 @@ public class Test implements Runnable{
         for(int i = 0; i < dungeon.roomList.size(); i++){
             Room room = dungeon.roomList.get(i);
             displayGrid.displayRoom(room);
+
             for (int j = 0; j < dungeon.creatureList.size(); j++) {
                 if (dungeon.creatureList.get(j) instanceof Monster){
                     Monster monster = (Monster) dungeon.creatureList.get(j);
@@ -32,28 +34,39 @@ public class Test implements Runnable{
                         displayGrid.displayMonster(monster, room);
                     }
                 }
+                else if (dungeon.creatureList.get(j) instanceof Player){
+                    Player player = (Player) dungeon.creatureList.get(j);
+                    if (player.getRoom() == room.getRoomID()) {
+                        displayGrid.displayPlayer(player, room);
+                    }
+                }
             }
 
-//            for (int j = 0; j < dungeon.itemList.size(); j++) {
-//                if (dungeon.itemList.get(j) instanceof Armor){
-//                    Armor armor = (Armor) dungeon.itemList.get(j);
-//                    if (armor.getRoom() == room.getRoomID()) {
-//                        displayGrid.displayArmor(armor, room);
-//                    }
-//                }
-//                else if(dungeon.itemList.get(j) instanceof Sword){
-//                    Sword sword = (Sword) dungeon.itemList.get(j);
-//                    if (sword.getRoom() == room.getRoomID()) {
-//                        displayGrid.displaySword(sword, room);
-//                    }
-//                }
-//                else{
-//                    Scroll scroll = (Scroll) dungeon.itemList.get(j);
-//                    if (scroll.getRoom() == room.getRoomID()) {
-//                        displayGrid.displayScroll(scroll, room);
-//                    }
-//                }
-//            }
+            for (int j = 0; j < dungeon.itemList.size(); j++) {
+                if (dungeon.itemList.get(j) instanceof Armor){
+                    Armor armor = (Armor) dungeon.itemList.get(j);
+                    if (armor.getRoom() == room.getRoomID()) {
+                        displayGrid.displayArmor(armor, room);
+                    }
+                }
+                else if(dungeon.itemList.get(j) instanceof Sword){
+                    Sword sword = (Sword) dungeon.itemList.get(j);
+                    if (sword.getRoom() == room.getRoomID()) {
+                        displayGrid.displaySword(sword, room);
+                    }
+                }
+                else{
+                    Scroll scroll = (Scroll) dungeon.itemList.get(j);
+                    if (scroll.getRoom() == room.getRoomID()) {
+                        displayGrid.displayScroll(scroll, room);
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < dungeon.passageList.size(); i++){
+            Passage passage = dungeon.passageList.get(i);
+            displayGrid.displayPassage(passage);
         }
     }
 

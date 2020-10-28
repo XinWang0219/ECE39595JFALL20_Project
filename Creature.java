@@ -33,6 +33,10 @@ public class Creature extends Displayable{
         serial = _serial;
     }
 
+    public int getRoom(){
+        return roomID;
+    }
+
     @Override
     public String toString( ) {
         String str = "Creature: \n";
