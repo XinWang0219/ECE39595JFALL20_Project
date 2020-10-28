@@ -28,7 +28,7 @@
 //    }
 //
 //}
-
+package ECE39595JFALL20_Project;
 import asciiPanel.AsciiPanel;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -41,6 +41,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
     private int width;
     private int topHeight;
     private int bottomHeight;
+    private int height;
     private static final int DEBUG = 0;
     private static final String CLASSID = ".ObjectDisplayGrid";
     private static AsciiPanel terminal;
@@ -50,7 +51,9 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
     public ObjectDisplayGrid(int _gameHeight, int _width, int _topHeight, int _bottomHeight ){
         width = _width;
         height = _gameHeight + _topHeight + _bottomHeight;
-
+        topHeight = _topHeight;
+        gameHeight = _gameHeight;
+        bottomHeight = _bottomHeight;
         terminal = new AsciiPanel(width, height);
 
         objectGrid = new Char[width][height];
@@ -135,12 +138,47 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
         terminal.repaint();
     }
 
+    public final void displayRoom(Room room) {
+        Char fl = new Char('.');
+        Char wall = new Char('X');
+
+        // floor
+        for (int i = room.getPosX(); i < (room.getPosX() + room.getWidth()); i++) {
+            for (int j = (topHeight + room.getPosY()); j < (topHeight + room.getPosY() + room.getHeight());j++) {
+                addObjectToDisplay(fl, i, topHeight);
+            }
+        }
+
+        // vertical wall
+        for (int i = (topHeight + room.getPosY()); i < (topHeight + room.getPosY() + room.getHeight()); i++) {
+            addObjectToDisplay(wall, room.getPosX(), i);
+            addObjectToDisplay(wall, (room.getPosX() + room.getWidth()),i);
+        }
+
+        //horizontal wall
+        for (int i = room.getPosX() ; i < (room.getPosX() + room.getWidth()); i++) {
+            addObjectToDisplay(wall, i, (topHeight+room.getPosY()));
+            addObjectToDisplay(wall, i,(room.getPosY() + room.getHeight() + topHeight));
+        }
+
+        terminal.repaint();
+    }
+
+
+
     public void fireUp() {
         //if (terminal.requestFocusInWindow()) {
-        //    System.out.println(CLASSID + ".ObjectDisplayGrid(...) requestFocusInWindow Succeeded");
+        System.out.println(CLASSID + ".ObjectDisplayGrid(...) requestFocusInWindow Succeeded");
         //} else {
-        System.out.println(CLASSID + ".ObjectDisplayGrid(...) requestFocusInWindow FAILED");
+        //System.out.println(CLASSID + ".ObjectDisplayGrid(...) requestFocusInWindow FAILED");
         //}
+    }
+
+    public final void displayMonster(Monster monster, Room room) {
+        Char mon = new Char(monster.getType());
+        mon_x = room.getPosX() + monster.getPosX();
+        mon_y = room.getPosY() + monster.getPosY() + topHeight;
+        addObjectToDisplay(mon, mon_x, mon_y);
     }
 
     public void addObjectToDisplay(Char ch, int x, int y) {
