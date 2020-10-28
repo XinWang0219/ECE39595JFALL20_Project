@@ -4,7 +4,7 @@ public class PlayerMove implements InputObserver, Runnable{
 
     private static Player player = null;
     private static int DEBUG = 1;
-    private static String CLASSID = "KeyStrokePrinter";
+    private static String CLASSID = "PlayerMove";
     private static Queue<Character> inputQueue = null;
     private ObjectDisplayGrid displayGrid;
     private Char pl = new Char('@');
@@ -81,7 +81,7 @@ public class PlayerMove implements InputObserver, Runnable{
 
 
     private boolean isMovable(int x, int y) {
-        char obj = displayGrid.getChar(x,y);
+        char obj = displayGrid.getChar(x,(y-2));
         if(obj == '#' || obj == '+' || obj == '.') {
             return true;
         }
@@ -94,11 +94,17 @@ public class PlayerMove implements InputObserver, Runnable{
         if (isMovable(player.getPosX(), (player.getPosY()-1))){
             player.setPosY(player.getPosY() - 1);
         }
+        else{
+            System.out.println("NOT MOVABLE!");
+        }
     }
 
     private void moveDown() {
         if (isMovable(player.getPosX(), (player.getPosY()+1))){
             player.setPosY(player.getPosY() + 1);
+        }
+        else{
+            System.out.println("NOT MOVABLE!");
         }
     }
 
@@ -106,11 +112,17 @@ public class PlayerMove implements InputObserver, Runnable{
         if (isMovable((player.getPosX()-1), player.getPosY())){
             player.setPosX(player.getPosX() - 1);
         }
+        else{
+            System.out.println("NOT MOVABLE!");
+        }
     }
 
     private void moveRight() {
         if (isMovable((player.getPosX()+1), player.getPosY())){
-            player.setPosY(player.getPosX() + 1);
+            player.setPosX(player.getPosX() + 1);
+        }
+        else{
+            System.out.println("NOT MOVABLE!");
         }
     }
 }

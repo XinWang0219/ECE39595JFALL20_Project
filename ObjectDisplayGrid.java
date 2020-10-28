@@ -1,7 +1,12 @@
 import asciiPanel.AsciiPanel;
+import org.xml.sax.SAXException;
+import java.io.IOException;
+
 import javax.swing.*;
+import javax.xml.parsers.ParserConfigurationException;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.*;
 import java.util.List;
@@ -18,6 +23,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
     private Char[][] objectGrid = null;
     private List<InputObserver> inputObservers = null;
     private static Player player = null;
+    private static boolean firstRun = true;
 
     public ObjectDisplayGrid(int _gameHeight, int _width, int _topHeight, int _bottomHeight ){
         width = _width;
@@ -144,33 +150,38 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
                 }
                 else if (dungeon.creatureList.get(j) instanceof Player){
                     player = (Player) dungeon.creatureList.get(j);             
-                    if (player.getRoom() == room.getRoomID()) {
+                    if (player.getRoom() == room.getRoomID() && firstRun) {
                         //displayPlayer(player, room);
                         int pl_x = room.getPosX() + player.getPosX();
                         int pl_y = room.getPosY() + player.getPosY() + topHeight;
 
                         player.setPosY(pl_y);
                         player.setPosX(pl_x);
+
+                        firstRun = false;
                     }
                 }
             }   
         }
-    
-    
+
     //display passages
         for (int i = 0; i < dungeon.passageList.size(); i++){
             Passage passage = dungeon.passageList.get(i);
             displayPassage(passage);
         }
-        
-        displayPlayer(player);
-        
-        //terminal.repaint();
-        
+        //displayPlayer(player);
+        terminal.repaint();
     }
 
     public char getChar(int x, int y){
-        return objectGrid[x][y+topHeight].getChar();
+        char ch;
+        try {
+            ch = objectGrid[x][y + topHeight].getChar();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            ch = 'q';
+        }
+        return ch;
     }
 
     public final void displayRoom(Room room) {
@@ -203,11 +214,11 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
     public final void displayPlayer(Player player) {
         Char pl = new Char('@');
         int pl_x = player.getPosX();
-        int pl_y = player.getPosY() + topHeight;
+        int pl_y = player.getPosY();
         addObjectToDisplay(pl, pl_x, pl_y);
         //player.setPosY(pl_y);
         //player.setPosX(pl_x);
-        //terminal.repaint();
+        terminal.repaint();
     }
 
     public final void displayMonster(Monster monster, Room room) {

@@ -37,12 +37,14 @@ public class Rogue implements Runnable{
             }
             
             try{
-                Thread.sleep(TIMEPERLOOP);
+                Thread.sleep(FRAMESPERSECOND);
             } catch (InterruptedException e) {
                 e.printStackTrace(System.err);
             }
-            
+
             displayGrid.initializeDisplay(dungeon);
+            displayGrid.displayPlayer(player);
+            //System.out.println("x:"+player.getPosX()+"y:"+player.getPosY());
         }
 
     }
@@ -109,8 +111,6 @@ public class Rogue implements Runnable{
         
         testThread.join();
         test.PlayerMove.join();
-        
-        
     }
 
 }
