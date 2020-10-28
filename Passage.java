@@ -1,9 +1,11 @@
-///package proj1;
-//package ECE39595JFALL20_Project;
+//package proj1;
+import java.util.*;
+
 public class Passage extends Structure{
 
     private String name;
     private int room1, room2;
+    private List<Point> pointList = new ArrayList<Point>();
 
     public Passage(){
         super();
@@ -18,6 +20,14 @@ public class Passage extends Structure{
         room1 = _room1;
         room2 = _room2;
         //System.out.println("Passage setID: " + room1 + "; " + room2);
+    }
+    
+    public void addPoint(Point point){
+        pointList.add(point);
+    }
+    
+    public List<Point> getPointList(){
+        return pointList;
     }
 
     @Override
