@@ -27,21 +27,6 @@ public class Test implements Runnable{
             Room room = dungeon.roomList.get(i);
             displayGrid.displayRoom(room);
 
-            for (int j = 0; j < dungeon.creatureList.size(); j++) {
-                if (dungeon.creatureList.get(j) instanceof Monster){
-                    Monster monster = (Monster) dungeon.creatureList.get(j);
-                    if (monster.getRoom() == room.getRoomID()) {
-                        displayGrid.displayMonster(monster, room);
-                    }
-                }
-                else if (dungeon.creatureList.get(j) instanceof Player){
-                    Player player = (Player) dungeon.creatureList.get(j);
-                    if (player.getRoom() == room.getRoomID()) {
-                        displayGrid.displayPlayer(player, room);
-                    }
-                }
-            }
-
             for (int j = 0; j < dungeon.itemList.size(); j++) {
                 if (dungeon.itemList.get(j) instanceof Armor){
                     Armor armor = (Armor) dungeon.itemList.get(j);
@@ -59,6 +44,21 @@ public class Test implements Runnable{
                     Scroll scroll = (Scroll) dungeon.itemList.get(j);
                     if (scroll.getRoom() == room.getRoomID()) {
                         displayGrid.displayScroll(scroll, room);
+                    }
+                }
+            }
+
+            for (int j = 0; j < dungeon.creatureList.size(); j++) {
+                if (dungeon.creatureList.get(j) instanceof Monster){
+                    Monster monster = (Monster) dungeon.creatureList.get(j);
+                    if (monster.getRoom() == room.getRoomID()) {
+                        displayGrid.displayMonster(monster, room);
+                    }
+                }
+                else if (dungeon.creatureList.get(j) instanceof Player){
+                    Player player = (Player) dungeon.creatureList.get(j);
+                    if (player.getRoom() == room.getRoomID()) {
+                        displayGrid.displayPlayer(player, room);
                     }
                 }
             }

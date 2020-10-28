@@ -341,11 +341,11 @@ public class DungeonXMLHandler extends DefaultHandler{
         }
         
         if (bVisible) {
-            boolean visibility = Boolean.parseBoolean(data.toString());
-            if (visibility){
+            int visibility = Integer.parseInt(data.toString());
+            if (visibility == 1){
                 display.setVisible();
             }
-            else if (!visibility){
+            else if (visibility==0){
                 display.setInvisible();
             }
             else{
@@ -444,6 +444,13 @@ public class DungeonXMLHandler extends DefaultHandler{
                     armorBeingParsed.setVisible();
                 }
             }
+            else if(belong == "Player"){
+                armorBeingParsed.setPosX(playerBeingParsed.getPosX());
+                armorBeingParsed.setPosY(playerBeingParsed.getPosY());
+                if (playerBeingParsed.isVisible()){
+                    armorBeingParsed.setVisible();
+                }
+            }
             String cd = currentDisplay.get(currentDisplay.size() - 1);
             currentDisplay.remove(cd);
             armorBeingParsed = null;
@@ -457,6 +464,13 @@ public class DungeonXMLHandler extends DefaultHandler{
                     swordBeingParsed.setVisible();
                 }
             }
+            else if(belong == "Player"){
+                swordBeingParsed.setPosX(playerBeingParsed.getPosX());
+                swordBeingParsed.setPosY(playerBeingParsed.getPosY());
+                if (playerBeingParsed.isVisible()){
+                    swordBeingParsed.setVisible();
+                }
+            }
             String cd = currentDisplay.get(currentDisplay.size() - 1);
             currentDisplay.remove(cd);
             swordBeingParsed = null;
@@ -467,6 +481,13 @@ public class DungeonXMLHandler extends DefaultHandler{
                 scrollBeingParsed.setPosX(monsterBeingParsed.getPosX());
                 scrollBeingParsed.setPosY(monsterBeingParsed.getPosY());
                 if (monsterBeingParsed.isVisible()){
+                    scrollBeingParsed.setVisible();
+                }
+            }
+            else if(belong == "Player"){
+                scrollBeingParsed.setPosX(playerBeingParsed.getPosX());
+                scrollBeingParsed.setPosY(playerBeingParsed.getPosY());
+                if (playerBeingParsed.isVisible()){
                     scrollBeingParsed.setVisible();
                 }
             }

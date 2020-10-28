@@ -139,6 +139,10 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
         terminal.repaint();
     }
 
+    public char getChar(int x, int y){
+        return objectGrid[x][y+topHeight].getChar();
+    }
+
     public final void displayRoom(Room room) {
         Char fl = new Char('.');
         Char wall = new Char('X');
@@ -165,12 +169,14 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
         terminal.repaint();
     }
 
+    // after running displayPlayer, player's coordinates are set corresponding to game area (instead of room)
     public final void displayPlayer(Player player, Room room) {
         Char pl = new Char('@');
         int pl_x = room.getPosX() + player.getPosX();
         int pl_y = room.getPosY() + player.getPosY() + topHeight;
         addObjectToDisplay(pl, pl_x, pl_y);
-
+        player.setPosY(pl_y);
+        player.setPosX(pl_x);
         terminal.repaint();
     }
 
@@ -261,7 +267,6 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
                 line = createVLine(x1, y2, y1);
             }
         }
-
         return line;
     }
 
