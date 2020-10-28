@@ -1,34 +1,3 @@
-//
-//public class ObjectDisplayGrid {
-//    private int gameHeight;
-//    private int width;
-//    private int topHeight;
-//
-//    public ObjectDisplayGrid(){
-//
-//    }
-//
-//    public void getObjectDisplayGrid(int _gameHeight, int _width, int _topHeight){
-//        gameHeight = _gameHeight;
-//        width = _width;
-//        topHeight = _topHeight;
-//    }
-//
-//    public void setTopMessageHeight(int _topHeight){
-//        topHeight = _topHeight;
-//    }
-//
-//    @Override
-//    public String toString(){
-//        String str = "ObjectDisplayGrid: \n";
-//        str += "    gameHeight: "+gameHeight + "\n";
-//        str += "    width: "+width + "\n";
-//        str += "    topHeight: "+topHeight + "\n";
-//        return str;
-//    }
-//
-//}
-
 import asciiPanel.AsciiPanel;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -48,6 +17,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
     private static AsciiPanel terminal;
     private Char[][] objectGrid = null;
     private List<InputObserver> inputObservers = null;
+    private static Player player = null;
 
     public ObjectDisplayGrid(int _gameHeight, int _width, int _topHeight, int _bottomHeight ){
         width = _width;
@@ -59,7 +29,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
 
         objectGrid = new Char[width][height];
 
-        initializeDisplay();
+        //initializeDisplay();
 
         super.add(terminal);
         super.setSize(width * 9, height * 16);
@@ -130,13 +100,73 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
     public void keyReleased(KeyEvent e) {
     }
 
-    public final void initializeDisplay() {
-        Char ch = new Char('-');
-        for (int i = 0; i < width; i++) {
-            addObjectToDisplay(ch, i, topHeight);
-            addObjectToDisplay(ch, i, topHeight+gameHeight);
+    public final void initializeDisplay(Dungeon dungeon) {
+        //print divider
+//        Char ch = new Char('-');
+//        for (int i = 0; i < width; i++) {
+//            addObjectToDisplay(ch, i, topHeight);
+//            addObjectToDisplay(ch, i, topHeight+gameHeight);
+//        }
+
+
+        //display Room : and visibable monsters and items
+        for(int i = 0; i < dungeon.roomList.size(); i++){
+            Room room = dungeon.roomList.get(i);
+            displayRoom(room);
+
+            for (int j = 0; j < dungeon.itemList.size(); j++) {
+                if (dungeon.itemList.get(j) instanceof Armor){
+                    Armor armor = (Armor) dungeon.itemList.get(j);
+                    if (armor.getRoom() == room.getRoomID()) {
+                        displayArmor(armor, room);
+                    }
+                }
+                else if(dungeon.itemList.get(j) instanceof Sword){
+                    Sword sword = (Sword) dungeon.itemList.get(j);
+                    if (sword.getRoom() == room.getRoomID()) {
+                        displaySword(sword, room);
+                    }
+                }
+                else{
+                    Scroll scroll = (Scroll) dungeon.itemList.get(j);
+                    if (scroll.getRoom() == room.getRoomID()) {
+                        displayScroll(scroll, room);
+                    }
+                }
+            }
+
+            for (int j = 0; j < dungeon.creatureList.size(); j++) {
+                if (dungeon.creatureList.get(j) instanceof Monster){
+                    Monster monster = (Monster) dungeon.creatureList.get(j);
+                    if (monster.getRoom() == room.getRoomID()) {
+                        displayMonster(monster, room);
+                    }
+                }
+                else if (dungeon.creatureList.get(j) instanceof Player){
+                    player = (Player) dungeon.creatureList.get(j);             
+                    if (player.getRoom() == room.getRoomID()) {
+                        //displayPlayer(player, room);
+                        int pl_x = room.getPosX() + player.getPosX();
+                        int pl_y = room.getPosY() + player.getPosY() + topHeight;
+
+                        player.setPosY(pl_y);
+                        player.setPosX(pl_x);
+                    }
+                }
+            }   
         }
-        terminal.repaint();
+    
+    
+    //display passages
+        for (int i = 0; i < dungeon.passageList.size(); i++){
+            Passage passage = dungeon.passageList.get(i);
+            displayPassage(passage);
+        }
+        
+        displayPlayer(player);
+        
+        //terminal.repaint();
+        
     }
 
     public char getChar(int x, int y){
@@ -166,18 +196,18 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
             addObjectToDisplay(wall, i,(room.getPosY() + room.getHeight() + topHeight-1));
         }
 
-        terminal.repaint();
+        //terminal.repaint();
     }
 
     // after running displayPlayer, player's coordinates are set corresponding to game area (instead of room)
-    public final void displayPlayer(Player player, Room room) {
+    public final void displayPlayer(Player player) {
         Char pl = new Char('@');
-        int pl_x = room.getPosX() + player.getPosX();
-        int pl_y = room.getPosY() + player.getPosY() + topHeight;
+        int pl_x = player.getPosX();
+        int pl_y = player.getPosY() + topHeight;
         addObjectToDisplay(pl, pl_x, pl_y);
-        player.setPosY(pl_y);
-        player.setPosX(pl_x);
-        terminal.repaint();
+        //player.setPosY(pl_y);
+        //player.setPosX(pl_x);
+        //terminal.repaint();
     }
 
     public final void displayMonster(Monster monster, Room room) {
@@ -186,7 +216,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
         int mon_y = room.getPosY() + monster.getPosY() + topHeight;
         addObjectToDisplay(mon, mon_x, mon_y);
 
-        terminal.repaint();
+        //terminal.repaint();
     }
 
     public final void displayScroll(Scroll scroll, Room room) {
@@ -196,7 +226,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
             int scl_y = room.getPosY() + scroll.getPosY() + topHeight;
             addObjectToDisplay(scl, scl_x, scl_y);
         }
-        terminal.repaint();
+        //terminal.repaint();
     }
 
     public final void displayArmor(Armor armor, Room room) {
@@ -206,7 +236,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
             int arm_y = room.getPosY() + armor.getPosY() + topHeight;
             addObjectToDisplay(arm, arm_x, arm_y);
         }
-        terminal.repaint();
+        //terminal.repaint();
     }
 
     public final void displaySword(Sword sword, Room room) {
@@ -216,7 +246,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
             int sw_y = room.getPosY() + sword.getPosY() + topHeight;
             addObjectToDisplay(sw, sw_x, sw_y);
         }
-        terminal.repaint();
+        //terminal.repaint();
     }
 
     public final void displayPassage(Passage passage){
@@ -240,7 +270,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
         Point end = pointList.get((pointList.size() - 1));
         addObjectToDisplay(door, start.getX(), (start.getY()+topHeight));
         addObjectToDisplay(door, end.getX(), (end.getY()+topHeight));
-        terminal.repaint();
+        //terminal.repaint();
     }
 
     public List<Point> getLine(Point p1, Point p2){

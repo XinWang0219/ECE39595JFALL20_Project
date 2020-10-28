@@ -10,9 +10,9 @@ public class PlayerMove implements InputObserver, Runnable{
     private Char pl = new Char('@');
 
     public PlayerMove(Player _player, ObjectDisplayGrid grid){
-        player = _player;
         inputQueue = new ConcurrentLinkedQueue<>();
         displayGrid = grid;
+        player = _player;
 
     }
 
@@ -69,6 +69,9 @@ public class PlayerMove implements InputObserver, Runnable{
                     case 'l':
                         moveRight();
                         break;
+                    case 'E':
+                        System.out.println("End Game!");
+                        return false;
                     default:;
                 }
             }
