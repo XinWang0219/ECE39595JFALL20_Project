@@ -44,6 +44,9 @@ public class Rogue implements Runnable{
 
             displayGrid.initializeDisplay(dungeon);
             displayGrid.displayPlayer(player);
+            displayGrid.showTopInfo();
+            displayGrid.showBottomInfo();
+            
             //System.out.println("x:"+player.getPosX()+"y:"+player.getPosY());
         }
 

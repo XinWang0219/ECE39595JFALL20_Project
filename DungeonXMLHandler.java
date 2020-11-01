@@ -285,6 +285,7 @@ public class DungeonXMLHandler extends DefaultHandler{
                     break;
                 default:
                     System.out.println("Unknown ItemAction: "+name);
+                    itemAction = new BlessCurseOwner(owner);
             }
             itemActionBeingParsed = itemAction;  
             actionflag = false;

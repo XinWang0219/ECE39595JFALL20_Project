@@ -81,7 +81,7 @@ public class PlayerMove implements InputObserver, Runnable{
 
 
     private boolean isMovable(int x, int y) {
-        char obj = displayGrid.getChar(x,(y-2));
+        char obj = displayGrid.getChar(x,(y-displayGrid.getTopHeight()));
         if(obj == '#' || obj == '+' || obj == '.') {
             return true;
         }

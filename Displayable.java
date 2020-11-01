@@ -103,6 +103,10 @@ public class Displayable{
         }
     }
     
+    public int getHp() {
+    	return Hp;
+    }
+    
     //adding name property
     public void setName(String _name){
         name = _name;

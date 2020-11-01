@@ -119,6 +119,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
         for(int i = 0; i < dungeon.roomList.size(); i++){
             Room room = dungeon.roomList.get(i);
             displayRoom(room);
+
             for (int j = 0; j < dungeon.itemList.size(); j++) {
                 if (dungeon.itemList.get(j) instanceof Armor){
                     Armor armor = (Armor) dungeon.itemList.get(j);
@@ -280,7 +281,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
         Point end = pointList.get((pointList.size() - 1));
         addObjectToDisplay(door, start.getX(), (start.getY()+topHeight));
         addObjectToDisplay(door, end.getX(), (end.getY()+topHeight));
-        terminal.repaint();
+        //terminal.repaint();
     }
 
     public List<Point> getLine(Point p1, Point p2){
@@ -327,6 +328,33 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
         }
         return line;
     }
+    
+    public void showTopInfo() {
+    	String topInfo = String.format("HP:%4d  core:  0", player.getHp());
+    	for (int i = 0; i < topInfo.length(); i++) {
+    		Char ch = new Char(topInfo.charAt(i));
+    		addObjectToDisplay(ch, i, 0);
+    	}
+    	
+    	terminal.repaint();
+    }
+    
+    public void showBottomInfo() {
+    	String packInfo = String.format("Pack:");
+    	String messageInfo = String.format("Info:");
+    	
+    	for (int i = 0; i < packInfo.length(); i++) {
+    		Char ch = new Char(packInfo.charAt(i));
+    		addObjectToDisplay(ch, i, (topHeight + gameHeight - 1));
+    	}
+    	
+    	for (int i = 0; i < messageInfo.length(); i++) {
+    		Char ch = new Char(messageInfo.charAt(i));
+    		addObjectToDisplay(ch, i, (topHeight + gameHeight + 1));
+    	}
+    	
+    	terminal.repaint();
+    }
 
     public void fireUp() {
         //if (terminal.requestFocusInWindow()) {
@@ -349,6 +377,10 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
         char ch = objectGrid[x][y].getChar();
         terminal.write(ch, x, y);
         terminal.repaint();
+    }
+    
+    public int getTopHeight() {
+    	return topHeight;
     }
 }
 
