@@ -29,7 +29,6 @@ public class Rogue implements Runnable{
     public void run(){
         displayGrid.fireUp();
         displayGrid.initializeDisplay(dungeon);
-        
         isRunning = true;
         while(isRunning){
             if (false){
@@ -46,7 +45,7 @@ public class Rogue implements Runnable{
             displayGrid.displayPlayer(player);
             displayGrid.showTopInfo();
             displayGrid.showBottomInfo();
-            
+
             //System.out.println("x:"+player.getPosX()+"y:"+player.getPosY());
         }
 
