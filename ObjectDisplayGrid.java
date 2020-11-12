@@ -116,12 +116,21 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
 //            addObjectToDisplay(ch, i, topHeight);
 //            addObjectToDisplay(ch, i, topHeight+gameHeight);
 //        }
+        for(int i = 0; i < dungeon.roomList.size(); i++) {
+            Room room = dungeon.roomList.get(i);
+            displayRoom(room);
+        }
 
+        //display passages
+        for (int i = 0; i < dungeon.passageList.size(); i++){
+            Passage passage = dungeon.passageList.get(i);
+            displayPassage(passage);
+        }
 
         //display Room : and visibable monsters and items
         for(int i = 0; i < dungeon.roomList.size(); i++){
             Room room = dungeon.roomList.get(i);
-            displayRoom(room);
+            //displayRoom(room);
 
             for (int j = 0; j < dungeon.itemList.size(); j++) {
                 if (dungeon.itemList.get(j) instanceof Armor){
@@ -167,12 +176,6 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
                     }
                 }
             }   
-        }
-
-    //display passages
-        for (int i = 0; i < dungeon.passageList.size(); i++){
-            Passage passage = dungeon.passageList.get(i);
-            displayPassage(passage);
         }
         //displayPlayer(player);
         terminal.repaint();
