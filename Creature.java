@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 //package ECE39595JFALL20_Project;
 public class Creature extends Displayable{
 
@@ -8,6 +11,7 @@ public class Creature extends Displayable{
     //add roomid and serial properties
     private int roomID;
     private int serial;
+    public List<Item> pack = new ArrayList<Item>();
     
     public Creature(){
         super();
@@ -35,6 +39,22 @@ public class Creature extends Displayable{
 
     public int getRoom(){
         return roomID;
+    }
+    
+    public void addItem(Item item) {
+    	pack.add(item);
+    }
+    
+    public List<Item> getPack(){
+    	return pack;
+    }
+    
+    public void addpack(List<Item> items) {
+    	pack.addAll(items);
+    }
+    
+    public void removeItem(Item item) {
+    	pack.remove(item);
     }
 
     @Override

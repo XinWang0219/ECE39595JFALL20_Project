@@ -108,7 +108,7 @@ public class Rogue implements Runnable{
         Thread testThread = new Thread(test);
         testThread.start();
         
-        test.PlayerMove = new Thread(new PlayerMove(player, displayGrid));
+        test.PlayerMove = new Thread(new PlayerMove(dungeon, player, displayGrid));
         test.PlayerMove.start();
         
         testThread.join();

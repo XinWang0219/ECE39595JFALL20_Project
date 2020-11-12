@@ -4,7 +4,7 @@ public class Scroll extends Item{
     private int room, serial;
 
     public Scroll(String _name){
-        name = _name;
+        super.setName(_name);
         //System.out.println("Scroll: "+name);
     }
 

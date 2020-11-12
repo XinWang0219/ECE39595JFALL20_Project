@@ -1,6 +1,6 @@
 public class Displayable{
 
-    private int visible;
+    private int visible = 1;
     private int maxHit;
     private int hpMoves;
     private int Hp;
@@ -15,7 +15,6 @@ public class Displayable{
     public String name;
 
     public Displayable(){
-
     }
 
     public void setInvisible(){
@@ -110,6 +109,10 @@ public class Displayable{
     //adding name property
     public void setName(String _name){
         name = _name;
+    }
+    
+    public int getMaxHit() {
+    	return maxHit;
     }
     
     @Override

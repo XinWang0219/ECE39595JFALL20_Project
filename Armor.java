@@ -3,14 +3,15 @@ public class Armor extends Item{
     private String name;
     private int room, serial;
 
-    public Armor(String string){
+    public Armor(String _name){
         super();
-        name = string;
+        super.setName(_name);
         //System.out.println("Armor: " +name);
     }
 
     public void setName(String _name){
         name = _name;
+        super.setName(_name);
         //System.out.println("Armor setName: "+name);
     }
 

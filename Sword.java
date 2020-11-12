@@ -4,7 +4,7 @@ public class Sword extends Item{
     private int room, serial;
 
     public Sword(String _name){
-        name = _name;
+    	super.setName(_name);
         //System.out.println("Sword: "+name);
     }
 

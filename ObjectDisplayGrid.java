@@ -24,6 +24,9 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
     private List<InputObserver> inputObservers = null;
     private static Player player = null;
     private static boolean firstRun = true;
+    private String packString = "";
+    private String infoString = "";
+    private int packmode = 0;
 
     public ObjectDisplayGrid(int _gameHeight, int _width, int _topHeight, int _bottomHeight ){
         width = _width;
@@ -221,16 +224,18 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
         addObjectToDisplay(pl, pl_x, pl_y);
         //player.setPosY(pl_y);
         //player.setPosX(pl_x);
-        terminal.repaint();
+        //terminal.repaint();
     }
 
     public final void displayMonster(Monster monster, Room room) {
-        Char mon = new Char(monster.getType());
-        int mon_x = room.getPosX() + monster.getPosX();
-        int mon_y = room.getPosY() + monster.getPosY() + topHeight;
-        addObjectToDisplay(mon, mon_x, mon_y);
-
-        terminal.repaint();
+    	if (monster.isVisible()) {
+	        Char mon = new Char(monster.getType());
+	        int mon_x = room.getPosX() + monster.getPosX();
+	        int mon_y = room.getPosY() + monster.getPosY() + topHeight;
+	        addObjectToDisplay(mon, mon_x, mon_y);
+	
+	        //terminal.repaint();
+    	}
     }
 
     public final void displayScroll(Scroll scroll, Room room) {
@@ -345,24 +350,54 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
     		addObjectToDisplay(ch, i, 0);
     	}
     	
-    	terminal.repaint();
+    	//terminal.repaint();
     }
     
     public void showBottomInfo() {
-    	String packInfo = String.format("Pack:");
+    	
+//    	for (int i = 0; i < width; i++) {
+//    		Char ch = new Char(' ');
+//    		addObjectToDisplay(ch, i, (topHeight + gameHeight + 1));
+//    		addObjectToDisplay(ch, i, (topHeight + gameHeight + 3));
+//    	}
+    	int i = 0;
+    	
+    	if (packmode == 1) {
+    		String packInfo ="Pack: ";
+    		List<Item> pack = player.getPack();
+	    	
+	    	for(i = 0; i< pack.size() && i < 10; i++) {
+	    		packInfo = packInfo + Integer.toString(i) + ": " + pack.get(i).getName() + " ,";
+	    	}
+    	
+	    	for (i = 0; i < packInfo.length(); i++) {
+	    		Char ch = new Char(packInfo.charAt(i));
+	    		addObjectToDisplay(ch, i, (topHeight + gameHeight + 1 + i/width));
+	    	}
+	    	for (int j = i; j < bottomHeight * width; j++) {
+	    		Char ch = new Char(' ');
+	    		addObjectToDisplay(ch, j, (topHeight + gameHeight + 1 + j/width));
+	    	}
+    	}
+    	else if (packmode == 0) {
     	String messageInfo = String.format("Info:");
-    	
-    	for (int i = 0; i < packInfo.length(); i++) {
-    		Char ch = new Char(packInfo.charAt(i));
-    		addObjectToDisplay(ch, i, (topHeight + gameHeight + 1));
+	    	messageInfo = messageInfo + infoString;
+	    	for (i = 0; i < messageInfo.length(); i++) {
+	    		Char ch = new Char(messageInfo.charAt(i));
+	    		addObjectToDisplay(ch, i, (topHeight + gameHeight + 1));
+	    	}
+	    	for (int j = i; j < width; j++) {
+	    		Char ch = new Char(' ');
+	    		addObjectToDisplay(ch, j, (topHeight + gameHeight + 1));	
+	    	}
     	}
     	
-    	for (int i = 0; i < messageInfo.length(); i++) {
-    		Char ch = new Char(messageInfo.charAt(i));
-    		addObjectToDisplay(ch, i, (topHeight + gameHeight + 3));
-    	}
-    	
-    	terminal.repaint();
+    	//terminal.repaint();
+    }
+    
+    public void writeInfo(String s) {
+    	setPackMode(0);
+    	infoString = s;
     }
 
     public void fireUp() {
@@ -390,6 +425,10 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
     
     public int getTopHeight() {
     	return topHeight;
+    }
+    
+    public void setPackMode(int i) {
+    	packmode = i;
     }
 }
 

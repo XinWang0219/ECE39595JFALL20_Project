@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 public class PlayerMove implements InputObserver, Runnable{
@@ -8,11 +9,16 @@ public class PlayerMove implements InputObserver, Runnable{
     private static Queue<Character> inputQueue = null;
     private ObjectDisplayGrid displayGrid;
     private Char pl = new Char('@');
+    private Reaction reaction;
+    private int dropmode = 0;
+    private static Dungeon dungeon = null;
 
-    public PlayerMove(Player _player, ObjectDisplayGrid grid){
+    public PlayerMove(Dungeon _dungeon, Player _player, ObjectDisplayGrid grid){
         inputQueue = new ConcurrentLinkedQueue<>();
         displayGrid = grid;
         player = _player;
+        dungeon = _dungeon;
+        reaction = new Reaction(dungeon, _player, 0, 0, grid);
 
     }
 
@@ -56,33 +62,84 @@ public class PlayerMove implements InputObserver, Runnable{
                 if (DEBUG > 1) {
                     System.out.println(CLASSID + ".processInput peek is " + ch);
                 }
-                switch (ch) {
-                    case 'h':
-                        moveLeft();
-                        break;
-                    case 'j':
-                        moveDown();
-                        break;
-                    case 'k':
-                        moveUp();
-                        break;
-                    case 'l':
-                        moveRight();
-                        break;
-                    case 'E':
-                        System.out.println("End Game!");
-                        return false;
-                    default:;
+                if (dropmode == 0) {
+	                switch (ch) {
+	                    case 'h':
+	                        moveLeft();
+	                        break;
+	                    case 'j':
+	                        moveDown();
+	                        break;
+	                    case 'k':
+	                        moveUp();
+	                        break;
+	                    case 'l':
+	                        moveRight();
+	                        break;
+	                    case 'E':
+	                        System.out.println("End Game!");
+	                        return false;
+	                    case 'p':
+	                    	pickItem();
+	                    	break;
+	                    case 'd':
+	                    	dropmode = 1;
+	                    	break;
+	                    case 'I':
+	                    	displayGrid.setPackMode(1);
+	                    	break;
+	                    default:;
+	                }
                 }
+                else if (dropmode == 1) {
+                	switch (ch) {
+	                    case '0':
+	                    case '1':
+	                    case '2':
+	                    case '3':
+	                    case '4':
+	                    case '5':
+	                    case '6':
+	                    case '7':
+	                    case '8':
+	                    case '9':
+	                    	dropmode = 0;
+	                    	dropItem(ch);
+	                    	break;
+	                    default:
+	                    	displayGrid.writeInfo("must follow 0-9 after command d");;
+                	}
+                }
+                
             }
         }
         return true;
     }
-
+    
+    private boolean isMonster(int x, int y) {
+    	char obj = displayGrid.getChar(x,(y-displayGrid.getTopHeight()));
+    	if(obj == 'T' || obj == 'S' || obj == 'H') {
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
+    }
+    
+    private boolean isItem(int x, int y) {
+    	char obj = displayGrid.getChar(x,(y-displayGrid.getTopHeight()));
+    	System.out.println(String.format("x = %d, y = %d, c = %c", x, y, obj));
+    	if(obj == ')' || obj == ']' || obj == '?') {
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
+    }
 
     private boolean isMovable(int x, int y) {
         char obj = displayGrid.getChar(x,(y-displayGrid.getTopHeight()));
-        if(obj == '#' || obj == '+' || obj == '.') {
+        if(obj == '#' || obj == '+' || obj == '.' || obj == ')' || obj == ']' || obj == '?') {
             return true;
         }
         else {
@@ -96,6 +153,13 @@ public class PlayerMove implements InputObserver, Runnable{
         }
         else{
             System.out.println("NOT MOVABLE!");
+            int x = player.getPosX();
+            int y = player.getPosY()-1;
+            if (isMonster(x, y)) {
+            	System.out.print("find it is monster");
+            	reaction.interactMonster(x, y);
+            }
+            
         }
     }
 
@@ -105,6 +169,11 @@ public class PlayerMove implements InputObserver, Runnable{
         }
         else{
             System.out.println("NOT MOVABLE!");
+            int x = player.getPosX();
+            int y = player.getPosY()+1;
+            if (isMonster(x, y)) {
+            	reaction.interactMonster(x, y);
+            }
         }
     }
 
@@ -114,6 +183,11 @@ public class PlayerMove implements InputObserver, Runnable{
         }
         else{
             System.out.println("NOT MOVABLE!");
+            int x = player.getPosX()-1;
+            int y = player.getPosY();
+            if (isMonster(x, y)) {
+            	reaction.interactMonster(x, y);
+            }
         }
     }
 
@@ -123,6 +197,38 @@ public class PlayerMove implements InputObserver, Runnable{
         }
         else{
             System.out.println("NOT MOVABLE!");
+            int x = player.getPosX()+1;
+            int y = player.getPosY();
+            if (isMonster(x, y)) {
+            	reaction.interactMonster(x, y);
+            }
         }
+    }
+    
+    private void pickItem() {
+    	int x = player.getPosX();
+        int y = player.getPosY();
+        reaction.interactItem(x,y);
+    }
+    
+    private void dropItem(char ch) {
+    	int index = Character.getNumericValue(ch);
+    	List<Item> pack = player.getPack();
+    	if (index >= pack.size()) {
+    		displayGrid.writeInfo("input index is larger than pack contents");
+    	}
+    	else {
+	    	Item item = pack.get(index);
+	    	player.removeItem(item);
+	    	
+	    	int x = player.getPosX();
+	    	int y = player.getPosY();
+	    	item.setPosX(x);
+	    	item.setPosY(y-2);
+	    	item.setRoom(0);
+	    	
+	    	dungeon.itemList.add(item);
+	    	displayGrid.writeInfo(String.format("dropped %s", item.getName()));
+    	}
     }
 }
