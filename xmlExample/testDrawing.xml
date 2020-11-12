@@ -24,6 +24,12 @@
                     <actionMessage>A creature has teleported somewhere else in the dungeon!</actionMessage>
                 </CreatureAction>
             </Monster>
+            <Armor name="+10 Armor" room="1" serial="3">
+                <visible>1</visible>
+                <posX>1</posX>
+                <posY>2</posY>
+                <ItemIntValue>10</ItemIntValue>
+            </Armor>
         </Room>
         <Room room="2">
             <visible>1</visible>
