@@ -128,55 +128,99 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
         }
 
         //display Room : and visibable monsters and items
-        for(int i = 0; i < dungeon.roomList.size(); i++){
-            Room room = dungeon.roomList.get(i);
-            //displayRoom(room);
+        for (int j = 0; j < dungeon.itemList.size(); j++) {
+        	if (dungeon.itemList.get(j) instanceof Armor){
+	        	Armor armor = (Armor) dungeon.itemList.get(j);
+	        	Room room = dungeon.roomList.get(armor.getRoom()-1);
+	        	displayArmor(armor, room);
+        	}
+        	else if(dungeon.itemList.get(j) instanceof Sword){
+                Sword sword = (Sword) dungeon.itemList.get(j);
+                Room room = dungeon.roomList.get(sword.getRoom()-1);
+                displaySword(sword, room);
+        	}
+        	else if(dungeon.itemList.get(j) instanceof Scroll){
+                Scroll scroll = (Scroll) dungeon.itemList.get(j);
+                Room room = dungeon.roomList.get(scroll.getRoom()-1);
+                displayScroll(scroll, room);
+        	}
+        	
+        }
+        
+        
+        for (int j = 0; j < dungeon.creatureList.size(); j++) {
+            if (dungeon.creatureList.get(j) instanceof Monster){
+                Monster monster = (Monster) dungeon.creatureList.get(j);
+                Room room = dungeon.roomList.get(monster.getRoom()-1);
+                displayMonster(monster, room);
+            }
+            if (dungeon.creatureList.get(j) instanceof Player){
+                player = (Player) dungeon.creatureList.get(j);
+                Room room = dungeon.roomList.get(player.getRoom()-1);
+                if (firstRun) {
+                	int pl_x = room.getPosX() + player.getPosX();
+                    int pl_y = room.getPosY() + player.getPosY() + topHeight;
 
-            for (int j = 0; j < dungeon.itemList.size(); j++) {
-                if (dungeon.itemList.get(j) instanceof Armor){
-                    Armor armor = (Armor) dungeon.itemList.get(j);
-                    if (armor.getRoom() == room.getRoomID()) {
-                        displayArmor(armor, room);
-                    }
-                }
-                else if(dungeon.itemList.get(j) instanceof Sword){
-                    Sword sword = (Sword) dungeon.itemList.get(j);
-                    if (sword.getRoom() == room.getRoomID()) {
-                        displaySword(sword, room);
-                    }
-                }
-                else{
-                    Scroll scroll = (Scroll) dungeon.itemList.get(j);
-                    if (scroll.getRoom() == room.getRoomID()) {
-                        displayScroll(scroll, room);
-                    }
+                    player.setPosY(pl_y);
+                    player.setPosX(pl_x);
+
+                    displayPlayer(player);
+                    firstRun = false;
                 }
             }
-
-            for (int j = 0; j < dungeon.creatureList.size(); j++) {
-                if (dungeon.creatureList.get(j) instanceof Monster){
-                    Monster monster = (Monster) dungeon.creatureList.get(j);
-                    if (monster.getRoom() == room.getRoomID()) {
-                        //System.out.println("ROOM ID:"+room.getRoomID()+"Monster"+j);
-                        displayMonster(monster, room);
-                    }
-                }
-                if (dungeon.creatureList.get(j) instanceof Player){
-                    player = (Player) dungeon.creatureList.get(j);             
-                    if (player.getRoom() == room.getRoomID() && firstRun) {
-                        //displayPlayer(player, room);
-                        int pl_x = room.getPosX() + player.getPosX();
-                        int pl_y = room.getPosY() + player.getPosY() + topHeight;
-
-                        player.setPosY(pl_y);
-                        player.setPosX(pl_x);
-
-                        displayPlayer(player);
-                        firstRun = false;
-                    }
-                }
-            }   
         }
+        
+        
+//        for(int i = 0; i < dungeon.roomList.size(); i++){
+//            Room room = dungeon.roomList.get(i);
+//            //displayRoom(room);
+//
+////            for (int j = 0; j < dungeon.itemList.size(); j++) {
+////                if (dungeon.itemList.get(j) instanceof Armor){
+////                    Armor armor = (Armor) dungeon.itemList.get(j);
+////                    if (armor.getRoom() == room.getRoomID()) {
+////                        displayArmor(armor, room);
+////                    }
+////                }
+////                else if(dungeon.itemList.get(j) instanceof Sword){
+////                    Sword sword = (Sword) dungeon.itemList.get(j);
+////                    if (sword.getRoom() == room.getRoomID()) {
+////                        displaySword(sword, room);
+////                    }
+////                }
+////                else{
+////                    Scroll scroll = (Scroll) dungeon.itemList.get(j);
+////                    if (scroll.getRoom() == room.getRoomID()) {
+////                        displayScroll(scroll, room);
+////                    }
+////                }
+////            }
+//            
+//
+//            for (int j = 0; j < dungeon.creatureList.size(); j++) {
+//                if (dungeon.creatureList.get(j) instanceof Monster){
+//                    Monster monster = (Monster) dungeon.creatureList.get(j);
+//                    if (monster.getRoom() == room.getRoomID()) {
+//                        //System.out.println("ROOM ID:"+room.getRoomID()+"Monster"+j);
+//                        displayMonster(monster, room);
+//                    }
+//                }
+//                if (dungeon.creatureList.get(j) instanceof Player){
+//                    player = (Player) dungeon.creatureList.get(j);             
+//                    if (player.getRoom() == room.getRoomID() && firstRun) {
+//                        //displayPlayer(player, room);
+//                        int pl_x = room.getPosX() + player.getPosX();
+//                        int pl_y = room.getPosY() + player.getPosY() + topHeight;
+//
+//                        player.setPosY(pl_y);
+//                        player.setPosX(pl_x);
+//
+//                        displayPlayer(player);
+//                        firstRun = false;
+//                    }
+//                }
+//            }   
+//        }
         //displayPlayer(player);
         terminal.repaint();
     }
@@ -216,7 +260,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
             addObjectToDisplay(wall, i,(room.getPosY() + room.getHeight() + topHeight-1));
         }
 
-        //terminal.repaint();
+        terminal.repaint();
     }
 
     // after running displayPlayer, player's coordinates are set corresponding to game area (instead of room)
@@ -227,7 +271,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
         addObjectToDisplay(pl, pl_x, pl_y);
         //player.setPosY(pl_y);
         //player.setPosX(pl_x);
-        //terminal.repaint();
+        terminal.repaint();
     }
 
     public final void displayMonster(Monster monster, Room room) {
@@ -237,7 +281,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
 	        int mon_y = room.getPosY() + monster.getPosY() + topHeight;
 	        addObjectToDisplay(mon, mon_x, mon_y);
 	
-	        //terminal.repaint();
+	        terminal.repaint();
     	}
     }
 
@@ -248,7 +292,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
             int scl_y = room.getPosY() + scroll.getPosY() + topHeight;
             addObjectToDisplay(scl, scl_x, scl_y);
         }
-        //terminal.repaint();
+        terminal.repaint();
     }
 
     public final void displayArmor(Armor armor, Room room) {
@@ -264,7 +308,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
                 addObjectToDisplay(arm, arm_x, arm_y);
             }
         }
-        //terminal.repaint();
+        terminal.repaint();
     }
 
     public final void displaySword(Sword sword, Room room) {
@@ -274,7 +318,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
             int sw_y = room.getPosY() + sword.getPosY() + topHeight;
             addObjectToDisplay(sw, sw_x, sw_y);
         }
-        //terminal.repaint();
+        terminal.repaint();
     }
 
     public final void displayPassage(Passage passage){
@@ -298,7 +342,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
         Point end = pointList.get((pointList.size() - 1));
         addObjectToDisplay(door, start.getX(), (start.getY()+topHeight));
         addObjectToDisplay(door, end.getX(), (end.getY()+topHeight));
-        //terminal.repaint();
+        terminal.repaint();
     }
 
     public List<Point> getLine(Point p1, Point p2){
@@ -353,7 +397,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
     		addObjectToDisplay(ch, i, 0);
     	}
     	
-    	//terminal.repaint();
+    	terminal.repaint();
     }
     
     public void showBottomInfo() {
@@ -395,7 +439,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
 	    	}
     	}
     	
-    	//terminal.repaint();
+    	terminal.repaint();
     }
     
     public void writeInfo(String s) {
