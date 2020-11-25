@@ -260,7 +260,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
             addObjectToDisplay(wall, i,(room.getPosY() + room.getHeight() + topHeight-1));
         }
 
-        terminal.repaint();
+//        terminal.repaint();
     }
 
     // after running displayPlayer, player's coordinates are set corresponding to game area (instead of room)
@@ -281,7 +281,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
 	        int mon_y = room.getPosY() + monster.getPosY() + topHeight;
 	        addObjectToDisplay(mon, mon_x, mon_y);
 	
-	        terminal.repaint();
+//	        terminal.repaint();
     	}
     }
 
@@ -292,7 +292,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
             int scl_y = room.getPosY() + scroll.getPosY() + topHeight;
             addObjectToDisplay(scl, scl_x, scl_y);
         }
-        terminal.repaint();
+//        terminal.repaint();
     }
 
     public final void displayArmor(Armor armor, Room room) {
@@ -308,7 +308,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
                 addObjectToDisplay(arm, arm_x, arm_y);
             }
         }
-        terminal.repaint();
+//        terminal.repaint();
     }
 
     public final void displaySword(Sword sword, Room room) {
@@ -318,7 +318,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
             int sw_y = room.getPosY() + sword.getPosY() + topHeight;
             addObjectToDisplay(sw, sw_x, sw_y);
         }
-        terminal.repaint();
+//        terminal.repaint();
     }
 
     public final void displayPassage(Passage passage){
@@ -342,7 +342,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
         Point end = pointList.get((pointList.size() - 1));
         addObjectToDisplay(door, start.getX(), (start.getY()+topHeight));
         addObjectToDisplay(door, end.getX(), (end.getY()+topHeight));
-        terminal.repaint();
+//        terminal.repaint();
     }
 
     public List<Point> getLine(Point p1, Point p2){
@@ -397,7 +397,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
     		addObjectToDisplay(ch, i, 0);
     	}
     	
-    	terminal.repaint();
+//    	terminal.repaint();
     }
     
     public void showBottomInfo() {
@@ -439,7 +439,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
 	    	}
     	}
     	
-    	terminal.repaint();
+//    	terminal.repaint();
     }
     
     public void writeInfo(String s) {
@@ -467,7 +467,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
     private void writeToTerminal(int x, int y) {
         char ch = objectGrid[x][y].getChar();
         terminal.write(ch, x, y);
-        terminal.repaint();
+//        terminal.repaint();
     }
     
     public int getTopHeight() {

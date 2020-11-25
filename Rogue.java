@@ -17,7 +17,7 @@ public class Rogue implements Runnable{
     private boolean isRunning;
     public static final int FRAMESPERSECOND = 60;
     public static final int TIMEPERLOOP = 1000000000 / FRAMESPERSECOND;
-    //private static ObjectDisplayGrid displayGrid = null;
+//    private static ObjectDisplayGrid displayGrid = null;
     private Thread PlayerMove;
     private static Player player = null;
 
@@ -59,7 +59,7 @@ public class Rogue implements Runnable{
         String fileName;
         switch (args.length){
             case 1:
-                fileName = "xmlExample/" + args[0];
+                fileName = "xmlFiles/" + args[0];
                 break;
             default:
                 System.out.println("java Test <xmlfilename>");
