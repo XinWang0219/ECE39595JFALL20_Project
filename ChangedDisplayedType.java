@@ -10,6 +10,11 @@ public class ChangedDisplayedType extends CreatureAction{
         name = _name;
                 
     }
+    
+    public void run() {
+    	char c = this.getCharValue();
+    	owner.setType(c);
+    }
 
     @Override
     public String toString(){

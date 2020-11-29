@@ -9,6 +9,10 @@ public class Remove extends CreatureAction {
         name = _name;
         owner = _owner;
     }
+    
+    public void run() {
+    	owner.setInvisible();
+    }
 
     @Override
     public String toString( ) {

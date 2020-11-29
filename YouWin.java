@@ -2,11 +2,16 @@
 public class YouWin extends CreatureAction {
     private Creature owner;
     private String name;
+//    private static ObjectDisplayGrid displayGrid;
     
     public YouWin(String _name, Creature _owner){
         //System.out.println("CreatureAction YouWin-> name:"+name+"; owner: "+owner.name);
         name = _name;
         owner = _owner;
+    }
+    
+    public void run() {
+    	ObjectDisplayGrid.writeInfo(this.getMessage());
     }
 
     @Override

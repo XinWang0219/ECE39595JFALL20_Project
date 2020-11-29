@@ -12,6 +12,14 @@ public class PlayerMove implements InputObserver, Runnable{
     private Reaction reaction;
     private int dropmode = 0;
     private static Dungeon dungeon = null;
+    private static int movec = 0;
+    private int wearmode = 0;
+    private int endgamemode = 0;
+    private int takeoutmode = 0;
+    private int helpmode = 0;
+    private int readmode = 0;
+    public static boolean working;
+    private static int hmoves = 0;
 
     public PlayerMove(Dungeon _dungeon, Player _player, ObjectDisplayGrid grid){
         inputQueue = new ConcurrentLinkedQueue<>();
@@ -33,7 +41,7 @@ public class PlayerMove implements InputObserver, Runnable{
     @Override
     public void run() {
         displayGrid.registerInputObserver(this);
-        boolean working = true;
+        working = true;
         while (working) {
             rest();
             working = (processInput( ));
@@ -62,7 +70,7 @@ public class PlayerMove implements InputObserver, Runnable{
                 if (DEBUG > 1) {
                     System.out.println(CLASSID + ".processInput peek is " + ch);
                 }
-                if (dropmode == 0) {
+                if (dropmode == 0 && wearmode == 0 && endgamemode == 0 && takeoutmode == 0 && helpmode == 0 && readmode == 0) {
 	                switch (ch) {
 	                    case 'h':
 	                        moveLeft();
@@ -77,19 +85,61 @@ public class PlayerMove implements InputObserver, Runnable{
 	                        moveRight();
 	                        break;
 	                    case 'E':
-	                        System.out.println("End Game!");
-	                        return false;
+	                    	endgamemode = 1;
+	                    	ObjectDisplayGrid.writeInfo("Make sure you want to end game? (Y|y)");
+	                        break;
 	                    case 'p':
 	                    	pickItem();
 	                    	break;
 	                    case 'd':
 	                    	dropmode = 1;
 	                    	break;
-	                    case 'I':
-	                    	displayGrid.setPackMode(1);
+	                    case 'i':
+	                    	ObjectDisplayGrid.setPackMode(1);
 	                    	break;
+	                    case 'c' :
+	                    	if (player.dropArmor() == false) {
+	                    		 ObjectDisplayGrid.writeInfo("no armor is worn");
+	                    	}
+	                    	break;
+	                    case 'w' :
+	                    	wearmode = 1;
+	                    	break;
+	                    case 'T' :
+	                    	takeoutmode = 1;
+	                    	break;
+	                    case '?':
+	                    	Command cmd = new Command();
+	                    	ObjectDisplayGrid.writeInfo(cmd.command);
+	                    	break;
+	                    case 'H':
+	                    	helpmode = 1;
+	                    	ObjectDisplayGrid.writeInfo("type a command");
+	                    	break;
+	                    case 'r':
+	                    	readmode = 1;
+	                    	ObjectDisplayGrid.writeInfo("type index from 0 - 9");
 	                    default:;
 	                }
+                }
+                else if (readmode == 1) {
+                	switch (ch) {
+	                    case '0':
+	                    case '1':
+	                    case '2':
+	                    case '3':
+	                    case '4':
+	                    case '5':
+	                    case '6':
+	                    case '7':
+	                    case '8':
+	                    case '9':
+	                    	readmode = 0;
+	                    	readScroll(ch);
+	                    	break;
+	                    default:
+	                    	ObjectDisplayGrid.writeInfo("must follow 0-9 after command d");
+                	}
                 }
                 else if (dropmode == 1) {
                 	switch (ch) {
@@ -107,13 +157,147 @@ public class PlayerMove implements InputObserver, Runnable{
 	                    	dropItem(ch);
 	                    	break;
 	                    default:
-	                    	displayGrid.writeInfo("must follow 0-9 after command d");;
+	                    	ObjectDisplayGrid.writeInfo("must follow 0-9 after command d");
+                	}
+                }
+                else if (wearmode == 1) {
+                	switch (ch) {
+	                    case '0':
+	                    case '1':
+	                    case '2':
+	                    case '3':
+	                    case '4':
+	                    case '5':
+	                    case '6':
+	                    case '7':
+	                    case '8':
+	                    case '9':
+	                    	wearmode = 0;
+	                    	wearArmor(ch);
+	                    	break;
+	                    default:
+	                    	ObjectDisplayGrid.writeInfo("must follow 0-9 after command d");
+                	}
+                }
+                else if (takeoutmode == 1) {
+                	switch (ch) {
+	                    case '0':
+	                    case '1':
+	                    case '2':
+	                    case '3':
+	                    case '4':
+	                    case '5':
+	                    case '6':
+	                    case '7':
+	                    case '8':
+	                    case '9':
+	                    	takeoutmode = 0;
+	                    	wearSword(ch);
+	                    	break;
+	                    default:
+	                    	ObjectDisplayGrid.writeInfo("must follow 0-9 after command d");
+                	}
+                }
+                else if (endgamemode == 1) {
+                	if (ch == 'Y'|| ch == 'y') {
+                		ObjectDisplayGrid.writeInfo("End Game by typing command E");
+                		return false;
+                	}
+                	else {
+                		ObjectDisplayGrid.writeInfo(" ");
+                		endgamemode = 0;
+                	}
+                }
+                else if (helpmode == 1 ) {
+                	helpmode = 0;
+                	switch (ch) {
+                		case 'c': 
+                			ObjectDisplayGrid.writeInfo("Change, or take off armor 'c': armor that is being worn is taken off and placed it in the pack. If no armor "
+                					+ "is being worn a message should be shown in the info area of the game display.");
+                			break;
+                		case 'd':
+                			ObjectDisplayGrid.writeInfo("Drop 'd' <integer>: drop item <integer> from the pack, where <integer>-1 is an index into the pack container.");
+                			break;
+                		case 'E':
+                			ObjectDisplayGrid.writeInfo("End game 'E' <Y | y>: end the game. Print a message in the info area using Char objects added to the "
+                					+ "objectGrid to make it clear why the game ended.");
+                			break;
+                		case '?':
+                			ObjectDisplayGrid.writeInfo("Help: '?': show the different commands in the info section of the display. This is the bottom message "
+                					+ "display area");
+                			break;
+                		case 'i':
+                			ObjectDisplayGrid.writeInfo("Show or display the inventory 'i': show the contents of the pack, printing the name for each item in the "
+                					+ "pack.");
+                			break;
+                		case 'p':
+                			ObjectDisplayGrid.writeInfo("Pick up an item from the dungeon floor 'p': pick up the item on the dungeon floor location that the "
+                					+ "player is standing on and add it to the pack container. ");
+                			break;
+                		case 'r':
+                			ObjectDisplayGrid.writeInfo("Read an item 'r' <integer>: the item specified by the <integer>-1 must be a scroll that is in the pack."
+                					+ "Reading a scroll causes the ItemActions associated with the scroll to be performed.");
+                			break;
+                		case 'T':
+                			ObjectDisplayGrid.writeInfo("Take out a weapon 'T' <integer>: take the sword identified by <integer>-1 in the pack container and "
+                					+ "have the player wield it.");
+                			break;
+                		case 'w':
+                			ObjectDisplayGrid.writeInfo("Wear item 'w' <integer>: take the armor identified by <integer> from the pack container and make it the "
+                					+ "armor being worn.");
+                			break;
+                		default:
+	                    	ObjectDisplayGrid.writeInfo("no such command exists");
+                		
+                		
                 	}
                 }
                 
             }
         }
+        
+        if (working == false) {
+        	return false;
+        }
         return true;
+    }
+    
+    private void wearSword(char ch) {
+    	int index = Character.getNumericValue(ch);
+    	List<Item> pack = player.getPack();
+    	if (index >= pack.size()) {
+    		ObjectDisplayGrid.writeInfo("input index is larger than pack contents");
+    	}
+    	else {
+	    	Item item = pack.get(index);
+	    	if (item instanceof Sword) {
+	    		player.dropWeapon();
+	    		player.setWeapon(item);
+//	    		item.setOwner(player);
+	    	}
+	    	else {
+	    		ObjectDisplayGrid.writeInfo("The item is not Sword");
+	    	}
+    	}
+    }
+    
+    private void wearArmor(char ch) {
+    	int index = Character.getNumericValue(ch);
+    	List<Item> pack = player.getPack();
+    	if (index >= pack.size()) {
+    		ObjectDisplayGrid.writeInfo("input index is larger than pack contents");
+    	}
+    	else {
+	    	Item item = pack.get(index);
+	    	if (item instanceof Armor) {
+	    		player.dropArmor();
+	    		player.setArmor(item);
+//	    		item.setOwner(player);
+	    	}
+	    	else {
+	    		ObjectDisplayGrid.writeInfo("The item is not Armor");
+	    	}
+    	}
     }
     
     private boolean isMonster(int x, int y) {
@@ -138,8 +322,18 @@ public class PlayerMove implements InputObserver, Runnable{
     }
 
     private boolean isMovable(int x, int y) {
+    	if (hmoves > 0) {
+    		ObjectDisplayGrid.generateFake();
+    		ObjectDisplayGrid.fakemode = 1;
+    		hmoves -= 1;
+    	}
+    	else {
+    		ObjectDisplayGrid.fakemode = 0;
+    	}
+    	
         char obj = displayGrid.getChar(x,(y-displayGrid.getTopHeight()));
         if(obj == '#' || obj == '+' || obj == '.' || obj == ')' || obj == ']' || obj == '?') {
+        	countMove();
             return true;
         }
         else {
@@ -211,14 +405,15 @@ public class PlayerMove implements InputObserver, Runnable{
         reaction.interactItem(x,y);
     }
     
-    private void dropItem(char ch) {
+    public static void dropItem(char ch) {
     	int index = Character.getNumericValue(ch);
     	List<Item> pack = player.getPack();
-    	if (index >= pack.size()) {
-    		displayGrid.writeInfo("input index is larger than pack contents");
+    	if (index > pack.size()) {
+    		ObjectDisplayGrid.writeInfo("input index is larger than pack contents");
     	}
     	else {
 	    	Item item = pack.get(index);
+	    	item.removeOwner();
 	    	player.removeItem(item);
 	    	
 	    	int x = player.getPosX();
@@ -228,7 +423,65 @@ public class PlayerMove implements InputObserver, Runnable{
 	    	item.setRoom(0);
 	    	
 	    	dungeon.itemList.add(item);
-	    	displayGrid.writeInfo(String.format("dropped %s", item.getName()));
+	    	ObjectDisplayGrid.writeInfo(String.format("dropped %s", item.getName()));
+    	}
+    }
+    
+    private void readScroll(char ch) {
+    	int index = Character.getNumericValue(ch);
+    	List<Item> pack = player.getPack();
+    	if (index > pack.size()) {
+    		ObjectDisplayGrid.writeInfo("input index is larger than pack contents");
+    	}
+    	else {
+    		Item item = pack.get(index);
+    		if (item instanceof Scroll) {
+    			for (int i = 0; i < item.getActionList().size(); i++) {
+    				if (item.getActionList().get(i) instanceof BlessCurseOwner) {
+    					ItemAction ia = item.getActionList().get(i);
+    					int effect = ia.getIntValue();
+    	    			char target = ia.getCharValue();
+    	    			if (target == 'a') {
+    	    				for (int i1 = 0; i1 < pack.size(); i1++) {
+    	    					if (pack.get(i1).checkOwner(player) && pack.get(i1) instanceof Armor) {
+    	    						pack.get(i1).setIntValue(pack.get(i1).getIntValue() + effect);
+    	    					}
+    	    				}
+    	    			}
+    	    			else if (target == 'w') {
+    	    				for (int i1 = 0; i1 < pack.size(); i1++) {
+    	    					if (pack.get(i1).checkOwner(player) && pack.get(i1) instanceof Sword) {
+    	    						pack.get(i1).setIntValue(pack.get(i1).getIntValue() + effect);
+    	    					}
+    	    				}
+    	    			}
+    	    			ObjectDisplayGrid.writeInfo(ia.getMessage());
+    	    			pack.remove(index);
+    				}
+    				else if(item.getActionList().get(i) instanceof Hallucinate) {
+    					ItemAction ia = item.getActionList().get(i);
+    					hmoves = ia.getIntValue();
+    					ObjectDisplayGrid.writeInfo(ia.getMessage());
+//    					ObjectDisplayGrid.fakemode = 1;
+//    					ObjectDisplayGrid.generateFake();
+    					pack.remove(index);	
+    				}
+    				else {
+    					System.out.println("something erro in get itemAction in playerMove");
+    				}
+    			}
+    		}
+    		else {
+    			ObjectDisplayGrid.writeInfo("It is not scroll");
+    		}
+    	}
+    }
+    
+    private void countMove() {
+    	movec += 1;
+    	if (movec == player.getHpMove()) {
+    		movec = 0;
+    		player.setHp(player.getHp() + 1);
     	}
     }
 }

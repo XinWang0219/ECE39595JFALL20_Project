@@ -3,11 +3,18 @@
 public class EndGame extends CreatureAction {
     private Creature owner;
     private String name;
+//    private static boolean working;
+//    private static ObjectDisplayGrid displayGrid;
     
     public EndGame(String _name, Creature _owner){
         //System.out.println("CreatureAction EndGame-> name:"+name+"; owner: "+owner.name);
         name = _name;
         owner = _owner;
+    }
+    
+    public void run() {
+    	ObjectDisplayGrid.writeInfo(this.getMessage());
+    	PlayerMove.working = false;
     }
 
     @Override

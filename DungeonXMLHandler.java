@@ -40,6 +40,7 @@ public class DungeonXMLHandler extends DefaultHandler{
     private boolean actionflag = false; //true: CreatureAction; false: ItemAction
     private Creature owner = null; //store the address of current creature
     private Point point = null;
+    private String type = null;
     
     //bX fileds
     private boolean bVisible = false;
@@ -171,12 +172,12 @@ public class DungeonXMLHandler extends DefaultHandler{
         else if (qName.equalsIgnoreCase("itemIntValue")){
             bItemIntValue = true;
         }
-//        else if (qName.equalsIgnoreCase("actionIntValue")){
-//            bActionIntValue = true;
-//        }
-//        else if (qName.equalsIgnoreCase("actionCharValue")){
-//            bActionCharValue = true;
-//        }
+        else if (qName.equalsIgnoreCase("actionIntValue")){
+            bActionIntValue = true;
+        }
+        else if (qName.equalsIgnoreCase("actionCharValue")){
+            bActionCharValue = true;
+        }
         else if (qName.equalsIgnoreCase("Monster")){
             String name = attributes.getValue("name");
             int roomID = Integer.parseInt(attributes.getValue("room"));
@@ -198,6 +199,7 @@ public class DungeonXMLHandler extends DefaultHandler{
             int roomID = Integer.parseInt(attributes.getValue("room"));
             int serial = Integer.parseInt(attributes.getValue("serial"));
             Player player = new Player();
+            player.setType('@');
             player.setName(name);
             player.setID(roomID, serial);
             
@@ -241,7 +243,8 @@ public class DungeonXMLHandler extends DefaultHandler{
         }
         else if (qName.equalsIgnoreCase("CreatureAction")){
             String name = attributes.getValue("name");
-            String type = attributes.getValue("type");
+//            String type = 
+            type = attributes.getValue("type");
             CreatureAction creatureAction = null;
             switch (name){
                 case "Remove":
@@ -267,7 +270,7 @@ public class DungeonXMLHandler extends DefaultHandler{
                     break;
                 default:
                     System.out.println("Unkown CreatureAction: "+name);
-                    break;     
+                    break;
             }
             creatureActionBeingParsed = creatureAction;
             actionflag = true;
@@ -277,17 +280,22 @@ public class DungeonXMLHandler extends DefaultHandler{
             String type = attributes.getValue("type");
             ItemAction itemAction = null;
             switch (name){
-                case "BlessCurseOwner":
-                    itemAction = new BlessCurseOwner(owner);
+                case "BlessSword":
+                case "BlessArmor":
+                case "CurseSword":
+                case "CurseArmor":
+                    itemAction = new BlessCurseOwner(scrollBeingParsed);
                     break;
                 case "Hallucinate":
-                    itemAction = new Hallucinate(owner);
+                    itemAction = new Hallucinate(scrollBeingParsed);
                     break;
                 default:
                     System.out.println("Unknown ItemAction: "+name);
-                    itemAction = new BlessCurseOwner(owner);
+                    itemAction = new BlessCurseOwner(scrollBeingParsed);
             }
-            itemActionBeingParsed = itemAction;  
+//            currentDisplay.add("ItemAction");
+            itemActionBeingParsed = itemAction;
+            scrollBeingParsed.addItemAction(itemActionBeingParsed);
             actionflag = false;
         }
         else if (qName.equalsIgnoreCase("actionMessage")){
@@ -404,6 +412,12 @@ public class DungeonXMLHandler extends DefaultHandler{
             display.setHeight(Integer.parseInt(data.toString()));
             bHeight = false;
         }
+//        else if (bActionIntValue) {
+//        	display.setIntValue(Integer.parseInt(data.toString()));
+//        }
+//        else if (bActionCharValue) {
+//        	display.setType(data.toString().charAt(0));
+//        }
         //ending BeingParsed
         else if (qName.equalsIgnoreCase("Dungeon")){
             //System.out.println("end dungeon parse");
@@ -478,14 +492,14 @@ public class DungeonXMLHandler extends DefaultHandler{
         }
         else if (qName.equalsIgnoreCase("Scroll")){
             String belong = currentDisplay.get(currentDisplay.size()-2);
-            if (belong == "Monster"){
+            if (belong.equals("Monster")){
                 scrollBeingParsed.setPosX(monsterBeingParsed.getPosX());
                 scrollBeingParsed.setPosY(monsterBeingParsed.getPosY());
                 if (monsterBeingParsed.isVisible()){
                     scrollBeingParsed.setVisible();
                 }
             }
-            else if(belong == "Player"){
+            else if(belong.equals("Player")){
                 scrollBeingParsed.setPosX(playerBeingParsed.getPosX());
                 scrollBeingParsed.setPosY(playerBeingParsed.getPosY());
                 if (playerBeingParsed.isVisible()){
@@ -497,6 +511,16 @@ public class DungeonXMLHandler extends DefaultHandler{
             scrollBeingParsed = null;
         }
         else if (qName.equalsIgnoreCase("CreatureAction")){
+        	if (type.equals("death")) {
+        		owner.setDeathAction(creatureActionBeingParsed);
+        	}
+        	else if (type.equals("hit")) {
+        		owner.setHitAction(creatureActionBeingParsed);
+        	}
+        	else {
+        		System.out.println(String.format("the creature action type %s is not defined", type));
+        	}
+        	type = null;
             creatureActionBeingParsed = null;
         }
         else if (qName.equalsIgnoreCase("ItemAction")){

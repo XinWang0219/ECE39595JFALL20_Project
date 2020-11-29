@@ -22,6 +22,18 @@ public class Action {
         c = _c;
         //System.out.println("Action setCharValue: "+c);
     }
+    
+    public char getCharValue() {
+    	return c;
+    }
+    
+    public int getIntValue() {
+    	return v;
+    }
+    
+    public String getMessage() {
+    	return msg;
+    }
 
     @Override
     public String toString(){

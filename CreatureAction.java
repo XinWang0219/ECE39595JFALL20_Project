@@ -9,6 +9,10 @@ public class CreatureAction extends Action {
 	public CreatureAction(String s) {
 		
 	}
+	
+	public void run() {
+		
+	}
 
     @Override
     public String toString( ) {

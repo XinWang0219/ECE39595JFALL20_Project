@@ -1,8 +1,11 @@
 //package ECE39595JFALL20_Project;
+import java.util.*;
+
 public class Item extends Displayable{
-	private String name;
+	public String name;
     private Creature owner;
     private int room, serial;
+    private List<ItemAction> ia = new ArrayList<ItemAction>();
 
     public Item(){
         super();
@@ -11,6 +14,10 @@ public class Item extends Displayable{
     public void setOwner(Creature _owner){
         owner = _owner;
         //System.out.println("Item setOwner: "+owner);
+    }
+    
+    public void addItemAction(ItemAction _ia) {
+    	ia.add(_ia);
     }
     
     public int getRoom(){
@@ -31,6 +38,23 @@ public class Item extends Displayable{
     
     public void setRoom(int _room) {
     	room = _room;
+    }
+    
+    public List<ItemAction> getActionList(){
+    	return ia;
+    }
+    
+    public boolean checkOwner(Creature creature) {
+    	if (owner == creature) {
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
+    }
+    
+    public void removeOwner() {
+    	owner = null;
     }
 
     @Override

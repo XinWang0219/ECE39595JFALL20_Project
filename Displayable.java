@@ -37,6 +37,10 @@ public class Displayable{
         hpMoves = _hpMoves;
         //System.out.println(hpMoves);
     }
+    
+    public int getHpMove() {
+    	return hpMoves;
+    }
 
     public void setHp(int _Hp){
         Hp = _Hp;
@@ -113,6 +117,10 @@ public class Displayable{
     
     public int getMaxHit() {
     	return maxHit;
+    }
+    
+    public int getIntValue() {
+    	return v;
     }
     
     @Override

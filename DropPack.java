@@ -9,6 +9,15 @@ public class DropPack extends CreatureAction {
         name = _name;
         owner = _owner;
     }
+    
+    public void run() {
+    	if (owner.getPack().size() == 0) {
+    		
+    	}
+    	else {
+    		PlayerMove.dropItem('0');
+    	}
+    }
 
     @Override
     public String toString( ) {

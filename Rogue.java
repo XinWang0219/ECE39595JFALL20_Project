@@ -10,16 +10,17 @@ import org.xml.sax.SAXException;
 
 public class Rogue implements Runnable{
 
-    private static ObjectDisplayGrid displayGrid = null;
+    private static ObjectDisplayGrid displayGrid;
     private static Dungeon dungeon = null;
     
     private static final int DEBUG = 0;
-    private boolean isRunning;
+    private static boolean isRunning;
     public static final int FRAMESPERSECOND = 60;
     public static final int TIMEPERLOOP = 1000000000 / FRAMESPERSECOND;
 //    private static ObjectDisplayGrid displayGrid = null;
     private Thread PlayerMove;
     private static Player player = null;
+//    private static boolean endgame = false;
 
     public Rogue() {
 
@@ -45,6 +46,7 @@ public class Rogue implements Runnable{
             displayGrid.displayPlayer(player);
             displayGrid.showTopInfo();
             displayGrid.showBottomInfo();
+            ObjectDisplayGrid.updateDisplay();
 
             //System.out.println("x:"+player.getPosX()+"y:"+player.getPosY());
         }

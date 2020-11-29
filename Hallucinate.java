@@ -1,9 +1,9 @@
 //package proj1;
 //package ECE39595JFALL20_Project;
 public class Hallucinate extends ItemAction{
-    private Creature owner;
+    private Item owner;
 
-    public Hallucinate(Creature _owner){
+    public Hallucinate(Item _owner){
         //System.out.println("ItemAction Hallucinate-> owner: "+owner.name);
         owner = _owner;
     }

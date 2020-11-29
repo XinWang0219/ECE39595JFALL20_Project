@@ -37,28 +37,33 @@ public class Reaction {
 				System.out.println(message);
 				if (isAtPosition(x, y, mp)) {
 					dungeon.creatureList.remove(i);
-					int player_maxHit = player.getMaxHit();
+					int player_maxHit = player.getMaxHit() + player.getWeapon();
 					int damage = rand.nextInt(player_maxHit+1);
 					System.out.print(String.format("maxhit = %d, damage = %d, monster hp = %d", player_maxHit, damage, monster.getHp()));
 					if (monster.getHp() <= damage) {
 						monster.setHp(0);
-						monster.setInvisible();
+//						monster.setInvisible();
+						monster.isDeath();
 						dungeon.creatureList.add(monster);
 						displayGrid.writeInfo(String.format("player killed the monster %c", monster.getType()));
 					}
 					else {
+						monster.isHit();
 						System.out.println("player hit monster");
 						monster.setHp(monster.getHp() - damage);
 						dungeon.creatureList.add(monster);
-						int monster_damage = rand.nextInt(monster.getMaxHit()+1);
+						int monster_damage = rand.nextInt(monster.getMaxHit()+1 - player.getArmor());
 						if (player.getHp() <= monster_damage) {
-							System.out.println("player died, end game");
+							player.setHp(0);
+							player.isDeath();
+//							System.out.println("player died, end game");
 						}
 						else {
+							player.isHit();
 							player.setHp(player.getHp() - monster_damage);
 						}
 						String s = String.format("player cause %d damage to Monster %c and recieved %d damage", damage, monster.getType(), monster_damage);
-						displayGrid.writeInfo(s);
+						ObjectDisplayGrid.writeInfo(s);
 					}
 					break;
 				}

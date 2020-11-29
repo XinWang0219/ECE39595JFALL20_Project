@@ -5,8 +5,8 @@ import java.util.List;
 public class Creature extends Displayable{
 
     private int h;      // hp
-    private CreatureAction da;      // death action
-    private CreatureAction ha;      // hit action
+    private List<CreatureAction> da = new ArrayList<CreatureAction>();      // death action
+    private List<CreatureAction> ha = new ArrayList<CreatureAction>();      // hit action
     
     //add roomid and serial properties
     private int roomID;
@@ -23,13 +23,27 @@ public class Creature extends Displayable{
     }
 
     public void setDeathAction(CreatureAction _da){
-        da = _da;
+        da.add(_da);
         //System.out.println("Creature setDeathAction: "+da);
     }
 
     public void setHitAction(CreatureAction _ha){
-        ha = _ha;
+        ha.add(_ha);
         //System.out.println("Creature setHitAction: "+ha);
+    }
+    
+    public void isDeath() {
+    	if (this.getHp() == 0) {
+    		for(int i = 0; i < da.size(); i ++) {
+    			da.get(i).run();
+    		}
+    	}
+    }
+    
+    public void isHit() {
+    	for(int i = 0; i < ha.size(); i ++) {
+			ha.get(i).run();
+		}
     }
     
     public void setID(int _roomID, int _serial){

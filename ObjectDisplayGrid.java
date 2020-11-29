@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.*;
 import java.util.List;
+import java.util.Random;
 
 public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubject{
     private int gameHeight;
@@ -20,13 +21,35 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
     private static final int DEBUG = 0;
     private static final String CLASSID = ".ObjectDisplayGrid";
     private static AsciiPanel terminal;
-    private Char[][] objectGrid = null;
+    private static Char[][] objectGrid = null;
+    
     private List<InputObserver> inputObservers = null;
     private static Player player = null;
     private static boolean firstRun = true;
     private String packString = "";
-    private String infoString = "";
-    private int packmode = 0;
+    private static String infoString = "";
+    private static int packmode = 0;
+    
+    public static Char[][] fakeGrid;
+    public static int fakemode = 0;
+    private static char[] buildElements = {'.', 'X', '#', '+', 'T', 'S', 'H', '@', ']', ')', '?'};
+    
+    public static void generateFake() {
+//    	fakeGrid = objectGrid;
+    	Random rand = new Random();
+    	for (int i = 0; i < objectGrid.length; i++) {
+    		for (int j = 2; j < objectGrid[0].length-3; j++) {
+//    			System.out.println(objectGrid[i][j].getChar());
+    			if (objectGrid[i][j] != null) {
+    				int num = rand.nextInt(100);
+//    				System.out.println(buildElements[num % 11]);
+    				fakeGrid[i][j] = new Char(buildElements[num % 11]);
+//    				terminal.write(fakeGrid[i][j].getChar(), i, j);
+    			}
+    		}
+    	}
+//    	terminal.repaint();
+    }
 
     public ObjectDisplayGrid(int _gameHeight, int _width, int _topHeight, int _bottomHeight ){
         width = _width;
@@ -37,6 +60,7 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
         terminal = new AsciiPanel(width, height);
 
         objectGrid = new Char[width][height];
+        fakeGrid = new Char[width][height];
 
         //initializeDisplay();
 
@@ -222,9 +246,27 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
 //            }   
 //        }
         //displayPlayer(player);
-        terminal.repaint();
+//        if (fakemode == 0) {
+//        	terminal.repaint();
+//        }
     }
-
+    
+    public static void updateDisplay() {
+        if (fakemode == 1) {
+        	for (int i = 0; i < objectGrid.length; i++) {
+        		for (int j = 2; j < objectGrid[0].length-3; j++) {
+//        			System.out.println(objectGrid[i][j].getChar());
+        			if (objectGrid[i][j] != null) {
+//        				int num = rand.nextInt(100);
+//        				System.out.println(buildElements[num % 11]);
+//        				fakeGrid[i][j] = new Char(buildElements[num % 11]);
+        				terminal.write(fakeGrid[i][j].getChar(), i, j);
+        			}
+        		}
+        	}
+        }
+    	terminal.repaint();
+    }
 
     public char getChar(int x, int y){
         char ch;
@@ -265,13 +307,13 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
 
     // after running displayPlayer, player's coordinates are set corresponding to game area (instead of room)
     public final void displayPlayer(Player player) {
-        Char pl = new Char('@');
+        Char pl = new Char(player.getType());
         int pl_x = player.getPosX();
         int pl_y = player.getPosY();
         addObjectToDisplay(pl, pl_x, pl_y);
         //player.setPosY(pl_y);
         //player.setPosX(pl_x);
-        terminal.repaint();
+//        terminal.repaint();
     }
 
     public final void displayMonster(Monster monster, Room room) {
@@ -400,6 +442,17 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
 //    	terminal.repaint();
     }
     
+    public String reformItem(Item item) {
+    	String str_name = item.getName();
+    	if (str_name.equals("Scroll")) {
+    		return str_name;
+    	}
+    	String[] str_array = str_name.split("\s");
+    	String name = str_array[1];
+    	int value = item.getIntValue();
+    	return Integer.toString(value) + " " + name;
+    }
+    
     public void showBottomInfo() {
     	
 //    	for (int i = 0; i < width; i++) {
@@ -414,7 +467,18 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
     		List<Item> pack = player.getPack();
 	    	
 	    	for(i = 0; i< pack.size() && i < 10; i++) {
-	    		packInfo = packInfo + Integer.toString(i) + ": " + pack.get(i).getName() + " ,";
+	    		if (pack.get(i).checkOwner(player)) {
+	    			if (pack.get(i) instanceof Sword) {
+	    				packInfo = packInfo + Integer.toString(i) + ": " + reformItem(pack.get(i)) + "(w)" + " ,";
+	    			}
+	    			else if (pack.get(i) instanceof Armor) {
+	    				packInfo = packInfo + Integer.toString(i) + ": " + reformItem(pack.get(i)) + "(a)" + " ,";
+	    			}
+	    		}
+	    		else {
+	    			packInfo = packInfo + Integer.toString(i) + ": " + reformItem(pack.get(i)) + " ,";
+	    		}
+	    		
 	    	}
     	
 	    	for (i = 0; i < packInfo.length(); i++) {
@@ -431,18 +495,26 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
 	    	messageInfo = messageInfo + infoString;
 	    	for (i = 0; i < messageInfo.length(); i++) {
 	    		Char ch = new Char(messageInfo.charAt(i));
-	    		addObjectToDisplay(ch, i, (topHeight + gameHeight + 1));
+	    		if (i / width == 0) {
+	    			addObjectToDisplay(ch, i, (topHeight + gameHeight + 1));
+	    		}
+	    		else if (i / width == 1) {
+	    			addObjectToDisplay(ch, i % width, (topHeight + gameHeight + 2));
+	    		}
+	    		else if (i / width == 2) {
+	    			addObjectToDisplay(ch, i % width, (topHeight + gameHeight + 3));
+	    		}
 	    	}
-	    	for (int j = i; j < width; j++) {
+	    	for (int j = i; j < 3*width; j++) {
 	    		Char ch = new Char(' ');
-	    		addObjectToDisplay(ch, j, (topHeight + gameHeight + 1));	
+	    		addObjectToDisplay(ch, j%width, (topHeight + gameHeight + j/width + 1));	
 	    	}
     	}
     	
 //    	terminal.repaint();
     }
     
-    public void writeInfo(String s) {
+    public static void writeInfo(String s) {
     	setPackMode(0);
     	infoString = s;
     }
@@ -474,8 +546,12 @@ public class ObjectDisplayGrid extends JFrame implements KeyListener, InputSubje
     	return topHeight;
     }
     
-    public void setPackMode(int i) {
+    public static void setPackMode(int i) {
     	packmode = i;
+    }
+    
+    public static Char[][] getObjectGrid(){
+    	return objectGrid;
     }
 }
 
