@@ -62,8 +62,9 @@ public class Reaction {
 							player.isHit();
 							player.setHp(player.getHp() - monster_damage);
 						}
-						String s = String.format("player cause %d damage to Monster %c and recieved %d damage", damage, monster.getType(), monster_damage);
-						ObjectDisplayGrid.writeInfo(s);
+						//this is test print out over write the death information before
+//						String s = String.format("player cause %d damage to Monster %c and recieved %d damage", damage, monster.getType(), monster_damage);
+//						ObjectDisplayGrid.writeInfo(s);
 					}
 					break;
 				}
